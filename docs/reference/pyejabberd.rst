@@ -1,0 +1,5 @@
+pyejabberd
+=============================
+
+.. automodule:: pyejabberd
+    :members:
