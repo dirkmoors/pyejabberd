@@ -15,7 +15,7 @@ PASSWORD = os.environ.get('PYEJABBERD_TESTS_PASSWORD', 'admin')
 XMPP_DOMAIN = os.environ.get('PYEJABBERD_TESTS_XMPP_DOMAIN', 'example.com')
 MUC_SERVICE = os.environ.get('PYEJABBERD_TESTS_MUC_SERVICE', 'conference')
 PROTOCOL = os.environ.get('PYEJABBERD_TESTS_PROTOCOL', 'https')
-VERBOSE = os.environ.get('PYEJABBERD_TESTS_VERBOSE', False)
+VERBOSE = int(os.environ.get('PYEJABBERD_TESTS_VERBOSE', 0)) == 1
 
 
 class EjabberdAPITests(unittest.TestCase):
