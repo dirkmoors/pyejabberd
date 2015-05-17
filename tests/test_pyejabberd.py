@@ -9,7 +9,7 @@ import os
 from pyejabberd import EjabberdAPI, muc
 
 HOST = os.environ.get('PYEJABBERD_TESTS_HOST', 'localhost')
-PORT = os.environ.get('PYEJABBERD_TESTS_PORT', 4560)
+PORT = int(os.environ.get('PYEJABBERD_TESTS_PORT', 4560))
 USERNAME = os.environ.get('PYEJABBERD_TESTS_USERNAME', 'admin')
 PASSWORD = os.environ.get('PYEJABBERD_TESTS_PASSWORD', 'admin')
 XMPP_DOMAIN = os.environ.get('PYEJABBERD_TESTS_XMPP_DOMAIN', 'example.com')

@@ -1,0 +1,17 @@
+machine:
+    python:
+        version: 2.7.6
+    environment:
+        PYEJABBERD_TESTS_HOST: localhost
+        PYEJABBERD_TESTS_PORT: 4560
+        PYEJABBERD_TESTS_USERNAME: admin
+        PYEJABBERD_TESTS_PASSWORD: admin
+        PYEJABBERD_TESTS_XMPP_DOMAIN: example.com
+        PYEJABBERD_TESTS_MUC_SERVICE: conference
+        PYEJABBERD_TESTS_PROTOCOL: http
+        PYEJABBERD_TESTS_VERBOSE: 0
+database:
+    post:
+        - docker info
+        - ./ejabberd.sh:
+            background: true
