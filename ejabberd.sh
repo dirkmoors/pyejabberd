@@ -1,5 +1,5 @@
 #!/bin/bash
-docker run -p "4560:4560" -p "5280:5280" \
+docker run -d -p "4560:4560" -p "5280:5280" \
     -e "EJABBERD_REGISTER_TRUSTED_NETWORK_ONLY=true" \
     -e "EJABBERD_ADMIN=${PYEJABBERD_TESTS_USERNAME:=admin}@${PYEJABBERD_TESTS_XMPP_DOMAIN:=example.com}" \
     -e "EJABBERD_ADMIN_PWD=${PYEJABBERD_TESTS_PASSWORD:=admin}" \
