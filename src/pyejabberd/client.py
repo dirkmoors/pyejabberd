@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 import six
 import logging
 import xmlrpclib
@@ -15,7 +15,7 @@ class EjabberdAPI(XMPPServerAPI):
     def __init__(self, host, port, username, password, xmpp_domain, muc_service="conference", protocol='https',
                  verbose=False):
 
-        logger.info('EjabberdAPI(host: %s, port: %s, username: %s, password: *******, xmpp_domain: %s, '
+        print('EjabberdAPI(host: %s, port: %s, username: %s, password: *******, xmpp_domain: %s, '
                     'muc_service=%s, protocol=%s, verbose: %s)' % (host, port, username, xmpp_domain, muc_service,
                                                                    protocol, verbose))
 
