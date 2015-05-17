@@ -4,7 +4,7 @@ machine:
     python:
         version: 2.7.6
     environment:
-        PYEJABBERD_TESTS_HOST: localhost
+        PYEJABBERD_TESTS_HOST: 127.0.0.1
         PYEJABBERD_TESTS_PORT: 4560
         PYEJABBERD_TESTS_USERNAME: admin
         PYEJABBERD_TESTS_PASSWORD: admin
