@@ -54,6 +54,7 @@ setup(
     ],
     install_requires=[
         # eg: "aspectlib==1.1.1", "six>=1.7",
+        'six>=1.9.0',
         'enum34>=1.0.4'
     ],
     extras_require={

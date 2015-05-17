@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 import unittest
 import os
 
@@ -97,7 +97,7 @@ class EjabberdAPITests(unittest.TestCase):
             result = self.api.get_room_options(roomjid)
             self.assertTrue(isinstance(result, dict))
             size = len(result)
-            print size
+            print_function(size)
         finally:
             self._remove_room(roomjid)
 
