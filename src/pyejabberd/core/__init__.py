@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta
 
-from django.utils.six import with_metaclass
+from six import with_metaclass
 
 
 
