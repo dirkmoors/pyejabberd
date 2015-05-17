@@ -15,7 +15,7 @@ class EjabberdAPI(XMPPServerAPI):
     def __init__(self, host, port, username, password, xmpp_domain, muc_service="conference", protocol='https',
                  verbose=False):
 
-        print('EjabberdAPI(host: %s, port: %s, username: %s, password: *******, xmpp_domain: %s, '
+        logger.info('EjabberdAPI(host: %s, port: %s, username: %s, password: *******, xmpp_domain: %s, '
                     'muc_service=%s, protocol=%s, verbose: %s)' % (host, port, username, xmpp_domain, muc_service,
                                                                    protocol, verbose))
 

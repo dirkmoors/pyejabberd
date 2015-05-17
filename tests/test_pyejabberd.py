@@ -14,7 +14,7 @@ USERNAME = os.environ.get('PYEJABBERD_TESTS_USERNAME', 'admin')
 PASSWORD = os.environ.get('PYEJABBERD_TESTS_PASSWORD', 'admin')
 XMPP_DOMAIN = os.environ.get('PYEJABBERD_TESTS_XMPP_DOMAIN', 'example.com')
 MUC_SERVICE = os.environ.get('PYEJABBERD_TESTS_MUC_SERVICE', 'conference')
-PROTOCOL = os.environ.get('PYEJABBERD_TESTS_PROTOCOL', 'https')
+PROTOCOL = os.environ.get('PYEJABBERD_TESTS_PROTOCOL', 'http')
 VERBOSE = int(os.environ.get('PYEJABBERD_TESTS_VERBOSE', 0)) == 1
 
 
