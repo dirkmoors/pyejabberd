@@ -23,7 +23,7 @@ install:
   - pip install tox
   - curl -sLo - http://j.mp/install-travis-docker | sh -xe
 script:
-  - ./run 'docker run -d -p 5280:5280 -p 4560:4560 -e "EJABBERD_REGISTER_TRUSTED_NETWORK_ONLY=true" -e "EJABBERD_ADMIN=admin@example.com" -e "EJABBERD_ADMIN_PWD=admin" -e "XMPP_DOMAIN=example.com" -e "EJABBERD_MUC_CREATE_ADMIN_ONLY=true" -e "EJABBERD_REGISTER_ADMIN_ONLY=true" -e "EJABBERD_MOD_ADMIN_EXTRA=true" -e "EJABBERD_MOD_MUC_ADMIN=true" dirkmoors/ejabberd'
+  - ./run 'docker run -p 5280:5280 -p 4560:4560 -e "EJABBERD_REGISTER_TRUSTED_NETWORK_ONLY=true" -e "EJABBERD_ADMIN=admin@example.com" -e "EJABBERD_ADMIN_PWD=admin" -e "XMPP_DOMAIN=example.com" -e "EJABBERD_MUC_CREATE_ADMIN_ONLY=true" -e "EJABBERD_REGISTER_ADMIN_ONLY=true" -e "EJABBERD_MOD_ADMIN_EXTRA=true" -e "EJABBERD_MOD_MUC_ADMIN=true" dirkmoors/ejabberd'
   - tox -v
 notifications:
   email:
