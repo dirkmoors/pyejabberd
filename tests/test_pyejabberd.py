@@ -75,7 +75,7 @@ class EjabberdAPITests(unittest.TestCase):
             self._remove_user(username)
 
     def test_create_destroy_room(self):
-        roomjid = 'testroom_1@conference.freely.im'
+        roomjid = self._create_roomjid(roomname='testroom_1')
 
         try:
             result = self.api.create_room(roomjid)
@@ -87,7 +87,7 @@ class EjabberdAPITests(unittest.TestCase):
             self.assertFalse(self._is_online_room(roomjid))
 
     def test_get_room_options(self):
-        roomjid = 'testroom_2@conference.freely.im'
+        roomjid = self._create_roomjid(roomname='testroom_2')
 
         try:
             result = self.api.create_room(roomjid)
@@ -97,13 +97,13 @@ class EjabberdAPITests(unittest.TestCase):
             result = self.api.get_room_options(roomjid)
             self.assertTrue(isinstance(result, dict))
             size = len(result)
-            print_function(size)
+            print(size)
         finally:
             self._remove_room(roomjid)
 
 
     def test_change_room_option(self):
-        roomjid = 'testroom_3@conference.freely.im'
+        roomjid = self._create_roomjid(roomname='testroom_3')
 
         try:
             result = self.api.create_room(roomjid)
@@ -187,6 +187,9 @@ class EjabberdAPITests(unittest.TestCase):
         result = self.api.destroy_room(roomjid)
         self.assertTrue(result)
         self.assertFalse(self._is_online_room(roomjid))
+
+    def _create_roomjid(self, roomname):
+        return '%s@%s.%s' % (roomname, MUC_SERVICE, XMPP_DOMAIN)
 
 if __name__ == '__main__':
     unittest.main()
