@@ -53,8 +53,6 @@ setup(
         # eg: "aspectlib==1.1.1", "six>=1.7",
         'six>=1.9.0',
         'enum34>=1.0.4',
-        'coveralls>=1.0a2',
-        'coverage>=4.0a5'
     ],
     extras_require={
         # eg: 'rst': ["docutils>=0.11"],

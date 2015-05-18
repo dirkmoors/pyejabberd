@@ -22,7 +22,7 @@ Python API Client for Ejabberd
     :target: https://coveralls.io/r/dirkmoors/pyejabberd
 
 .. |landscape| image:: https://landscape.io/github/dirkmoors/pyejabberd/master/landscape.svg?style=flat
-    :target: https://landscape.io/github/dirkmoors/pyejabberd/master
+    :target: https://landscape.io/github/dirkmoors/pyejabberd
     :alt: Code Quality Status
 
 .. |version| image:: http://img.shields.io/pypi/v/pyejabberd.png?style=flat
