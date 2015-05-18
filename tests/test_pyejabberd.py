@@ -44,9 +44,7 @@ class EjabberdAPITests(unittest.TestCase):
             self.assertTrue(result)
             self.assertTrue(self._is_registered(username))
         finally:
-            result = self.api.unregister_user(username)
-            self.assertTrue(result)
-            self.assertFalse(self._is_registered(username))
+            self._remove_user(username)
 
     def test_change_password(self):
         username = 'test_user_456'
@@ -82,9 +80,7 @@ class EjabberdAPITests(unittest.TestCase):
             self.assertTrue(result)
             self.assertTrue(self._is_online_room(roomjid))
         finally:
-            result = self.api.destroy_room(roomjid)
-            self.assertTrue(result)
-            self.assertFalse(self._is_online_room(roomjid))
+            self._remove_room(roomjid)
 
     def test_get_room_options(self):
         roomjid = self._create_roomjid(roomname='testroom_2')
@@ -186,6 +182,7 @@ class EjabberdAPITests(unittest.TestCase):
             if not self._is_registered(username):
                 break
             attempt += 1
+            print('_remove_user: retrying for username: %s' % username)
         self.assertFalse(self._is_registered(username))
 
     def _remove_room(self, roomjid):
@@ -196,6 +193,7 @@ class EjabberdAPITests(unittest.TestCase):
             if not self._is_online_room(roomjid):
                 break
             attempt += 1
+            print('_remove_room: retrying for roomjid: %s' % roomjid)
         self.assertFalse(self._is_online_room(roomjid))
 
     def _create_roomjid(self, roomname):
