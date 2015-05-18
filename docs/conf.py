@@ -16,14 +16,19 @@ if os.getenv('SPELLCHECK'):
     spelling_show_suggestions = True
     spelling_lang = 'en_US'
 
+try:
+    import sys
+    sys.path.append('src')
+    import pyejabberd
+    version = pyejabberd.__version__
+except ImportError:
+    version = '0.0.0'
+
 source_suffix = '.rst'
 master_doc = 'index'
 project = u'Python API Client for Ejabberd'
 copyright = u'2015, Dirk Moors'
-version = release = re.findall(
-    'version="(.*)"',
-    open(os.path.join(os.path.dirname(__file__), '../setup.py')).read()
-)[0]
+version = release = version
 
 import sphinx_py3doc_enhanced_theme
 html_theme = "sphinx_py3doc_enhanced_theme"

@@ -7,3 +7,4 @@ check-manifest>=0.24
 flake8>=2.4.0
 collective.checkdocs>=0.2
 pygments>=2.0.2
+sphinx_py3doc_enhanced_theme>=2.0.1
