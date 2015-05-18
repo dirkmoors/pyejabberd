@@ -2,20 +2,16 @@
 Python API Client for Ejabberd
 ===============================
 
-| |docs| |travis| |appveyor| |coveralls| |landscape| |scrutinizer|
+| |docs| |circleci| |coveralls| |landscape| |scrutinizer|
 | |version| |downloads| |wheel| |supported-versions| |supported-implementations|
 
 .. |docs| image:: https://readthedocs.org/projects/pyejabberd/badge/?style=flat
     :target: https://pyejabberd.readthedocs.org/en/latest/
     :alt: Documentation Status
 
-.. |travis| image:: https://img.shields.io/circleci/project/dirkmoors/pyejabberd/master.svg?style=flat
+.. |circleci| image:: https://img.shields.io/circleci/project/dirkmoors/pyejabberd/master.svg?style=flat
     :alt: CircleCI Build Status
     :target: https://circleci.com/gh/dirkmoors/pyejabberd
-
-.. |appveyor| image:: https://ci.appveyor.com/api/projects/status/github/dirkmoors/pyejabberd?branch=master
-    :alt: AppVeyor Build Status
-    :target: https://ci.appveyor.com/project/dirkmoors/pyejabberd
 
 .. |coveralls| image:: http://img.shields.io/coveralls/dirkmoors/pyejabberd/master.png?style=flat
     :alt: Coverage Status

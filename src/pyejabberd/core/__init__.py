@@ -5,7 +5,6 @@ from abc import ABCMeta
 from six import with_metaclass
 
 
-
 class XMPPServerAPI(with_metaclass(ABCMeta, object)):
     # @abstractmethod
     # def register_user(self, username, password):

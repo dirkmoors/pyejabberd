@@ -30,7 +30,7 @@ class EjabberdAPI(XMPPServerAPI):
 
     @property
     def service_url(self):
-        return "%s://%s:%s/"%(self.protocol, self.host, self.port)
+        return "%s://%s:%s/" % (self.protocol, self.host, self.port)
 
     @property
     def proxy(self):
@@ -178,8 +178,8 @@ class EjabberdAPI(XMPPServerAPI):
 
     def _expect_result_code(self, func_name, response, expected_result_code=0):
         if response.get("res") != expected_result_code:
-            logger.error("Unexpected status: %s: %s"%(response.get("res"), response.get("text")))
-            raise UnexpectedStatusError("%s: result_code: %s"%(func_name, response.response.get("res")))
+            logger.error("Unexpected status: %s: %s" % (response.get("res"), response.get("text")))
+            raise UnexpectedStatusError("%s: result_code: %s" % (func_name, response.response.get("res")))
 
     def _jid_to_name(self, jid):
         assert '@' in jid
