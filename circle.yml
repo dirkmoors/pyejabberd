@@ -18,7 +18,9 @@ dependencies:
     override:
         - pip install tox
         - docker info
+        - if [[ -e ~/docker/image.tar ]]; then docker load --input ~/docker/image.tar; fi
         - docker pull dirkmoors/ejabberd
+        - mkdir -p ~/docker; docker save dirkmoors/ejabberd > ~/docker/image.tar
 test:
     override:
         - ./ejabberd.sh; sleep 10
