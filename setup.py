@@ -17,6 +17,8 @@ try:
 except ImportError:
     from distutils.core import setup
 
+version = '0.1.0' # Default version
+
 if sys.argv[-1] == 'publish':
     # Add source path
     sys.path.append('src')
@@ -38,7 +40,7 @@ def read(*names, **kwargs):
 
 setup(
     name="pyejabberd",
-    version="0.1.0",
+    version=version,
     license="BSD",
     description="A Python client for the Ejabberd XMLRPC API",
     long_description="%s\n%s" % (read("README.rst"), re.sub(":obj:`~?(.*?)`", r"``\1``", read("CHANGELOG.rst"))),
