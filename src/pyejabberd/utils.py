@@ -8,7 +8,7 @@ from six import b
 def _format_digest(hexdigest):
     parts = []
     for i in xrange(len(hexdigest) / 2):
-        part = hexdigest[i*2:(i*2)+2]
+        part = hexdigest[i * 2:(i * 2) + 2]
         if part == '00':
             part = ''
         elif part.startswith('0'):
