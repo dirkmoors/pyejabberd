@@ -17,15 +17,14 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = '0.1.0' # Default version
-
-if sys.argv[-1] == 'publish':
-    # Add source path
+try:
     sys.path.append('src')
-
     import pyejabberd
     version = pyejabberd.__version__
+except ImportError:
+    version = '0.0.0'
 
+if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
     print("You probably want to also tag the version now:")
     print("  git tag -a %s -m 'version %s'" % (version, version))
