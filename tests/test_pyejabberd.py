@@ -175,26 +175,20 @@ class EjabberdAPITests(unittest.TestCase):
         return roomjid in online_rooms
 
     def _remove_user(self, username):
-        attempt = 0
-        while attempt < 3:
+        while True:
             result = self.api.unregister_user(username)
             self.assertTrue(result)
             if not self._is_registered(username):
                 break
-            attempt += 1
             print('_remove_user: retrying for username: %s' % username)
-        self.assertFalse(self._is_registered(username))
 
     def _remove_room(self, roomjid):
-        attempt = 0
-        while attempt < 3:
+        while True:
             result = self.api.destroy_room(roomjid)
             self.assertTrue(result)
             if not self._is_online_room(roomjid):
                 break
-            attempt += 1
             print('_remove_room: retrying for roomjid: %s' % roomjid)
-        self.assertFalse(self._is_online_room(roomjid))
 
     def _create_roomjid(self, roomname):
         return '%s@%s.%s' % (roomname, MUC_SERVICE, XMPP_DOMAIN)
