@@ -2,10 +2,16 @@
 import glob
 import io
 import re
+import sys
+
+import os.path
 from os.path import basename
 from os.path import dirname
 from os.path import join
 from os.path import splitext
+
+# Add source path
+sys.path.append('src')
 
 import pyejabberd
 
