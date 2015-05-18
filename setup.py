@@ -7,9 +7,23 @@ from os.path import dirname
 from os.path import join
 from os.path import splitext
 
-from setuptools import find_packages
-from setuptools import setup
+import pyejabberd
 
+from setuptools import find_packages
+
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
+version = pyejabberd.__version__
+
+if sys.argv[-1] == 'publish':
+    os.system('python setup.py sdist upload')
+    print("You probably want to also tag the version now:")
+    print("  git tag -a %s -m 'version %s'" % (version, version))
+    print("  git push --tags")
+    sys.exit()
 
 def read(*names, **kwargs):
     return io.open(
@@ -62,5 +76,4 @@ setup(
             "pyejabberd = pyejabberd.__main__:main"
         ]
     }
-
 )
