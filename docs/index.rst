@@ -1,5 +1,5 @@
 Welcome to Python API Client for Ejabberd's documentation!
-======================================
+==========================================================
 
 Contents:
 

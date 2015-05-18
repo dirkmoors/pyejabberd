@@ -9,9 +9,9 @@ Python API Client for Ejabberd
     :target: https://readthedocs.org/projects/pyejabberd
     :alt: Documentation Status
 
-.. |travis| image:: http://img.shields.io/travis/dirkmoors/pyejabberd/master.png?style=flat
-    :alt: Travis-CI Build Status
-    :target: https://travis-ci.org/dirkmoors/pyejabberd
+.. |travis| image:: https://img.shields.io/circleci/project/dirkmoors/pyejabberd/master.svg?style=flat
+    :alt: CircleCI Build Status
+    :target: https://circleci.com/gh/dirkmoors/pyejabberd
 
 .. |appveyor| image:: https://ci.appveyor.com/api/projects/status/github/dirkmoors/pyejabberd?branch=master
     :alt: AppVeyor Build Status
