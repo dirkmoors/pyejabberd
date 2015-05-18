@@ -6,7 +6,7 @@ Python API Client for Ejabberd
 | |version| |downloads| |wheel| |supported-versions| |supported-implementations|
 
 .. |docs| image:: https://readthedocs.org/projects/pyejabberd/badge/?style=flat
-    :target: https://readthedocs.org/projects/pyejabberd
+    :target: https://pyejabberd.readthedocs.org/en/latest/
     :alt: Documentation Status
 
 .. |travis| image:: https://img.shields.io/circleci/project/dirkmoors/pyejabberd/master.svg?style=flat

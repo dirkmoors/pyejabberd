@@ -9,6 +9,10 @@ include .coveragerc
 include .isort.cfg
 include .pylintrc
 
+include ejabberd.sh
+include requirements-ci.txt
+include circle.yml
+
 include AUTHORS.rst
 include CHANGELOG.rst
 include CONTRIBUTING.rst
