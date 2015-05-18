@@ -45,7 +45,7 @@ Python API Client for Ejabberd
     :alt: Scrtinizer Status
     :target: https://scrutinizer-ci.com/g/dirkmoors/pyejabberd/
 
-* Free software: BSD license
+* Free software: MIT license
 
 Installation
 ============

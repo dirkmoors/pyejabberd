@@ -10,11 +10,6 @@ from os.path import dirname
 from os.path import join
 from os.path import splitext
 
-# Add source path
-sys.path.append('src')
-
-import pyejabberd
-
 from setuptools import find_packages
 
 try:
@@ -22,9 +17,13 @@ try:
 except ImportError:
     from distutils.core import setup
 
-version = pyejabberd.__version__
-
 if sys.argv[-1] == 'publish':
+    # Add source path
+    sys.path.append('src')
+
+    import pyejabberd
+    version = pyejabberd.__version__
+
     os.system('python setup.py sdist upload')
     print("You probably want to also tag the version now:")
     print("  git tag -a %s -m 'version %s'" % (version, version))
