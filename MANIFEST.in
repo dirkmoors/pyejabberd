@@ -8,6 +8,7 @@ include .bumpversion.cfg
 include .coveragerc
 include .isort.cfg
 include .pylintrc
+include .coveralls.yml
 
 include ejabberd.sh
 include requirements-ci.txt
