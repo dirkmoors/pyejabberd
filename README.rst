@@ -45,8 +45,6 @@ Python API Client for Ejabberd
     :alt: Scrtinizer Status
     :target: https://scrutinizer-ci.com/g/dirkmoors/pyejabberd/
 
-An example package. Replace this with a proper project description. Generated with https://github.com/ionelmc/cookiecutter-pylibrary-minimal
-
 * Free software: BSD license
 
 Installation
@@ -59,7 +57,7 @@ Installation
 Documentation
 =============
 
-https://pyejabberd.readthedocs.org/
+    https://pyejabberd.readthedocs.org/
 
 Development
 ===========
