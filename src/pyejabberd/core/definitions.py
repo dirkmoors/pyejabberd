@@ -64,24 +64,32 @@ class API(with_metaclass(ABCMeta, object)):
         """
         return kwargs
 
-    def validate_response(self, context, response):
+    def validate_response(self, context, api, arguments, response):
         """
         Handler to validate the API response. Can be used to raise an exception to indicate failure. If it does not
           raise an exception, the pipeline will continue with the 'transform_response' method.
         :param context: A dictionary containing client context info
         :type context: dict
+        :param api: The api object that has been used for the call
+        :type api: py:class:API
+        :param arguments: The dictionary containing the arguments that have ben used to perform the call
+        :type arguments: dict
         :param response:
         :type response: object
         :rtype: object
         :return:
         """
 
-    def transform_response(self, context, response):
+    def transform_response(self, context, api, arguments, response):
         """
         Handler method to process the response. The output of this method will be returned as the output of the API
           call.
         :param context: A dictionary containing client context info
         :type context: dict
+        :param api: The api object that has been used for the call
+        :type api: py:class:API
+        :param arguments: The dictionary containing the arguments that have ben used to perform the call
+        :type arguments: dict
         :param response:
         :type response: object
         :rtype: object

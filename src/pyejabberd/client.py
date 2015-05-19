@@ -142,9 +142,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
             response = method(self.auth, arguments)
 
         # Validate response
-        api.validate_response(self.context, response)
+        api.validate_response(self.context, api, arguments, response)
 
         # Transform response
-        result = api.transform_response(self.context, response)
+        result = api.transform_response(self.context, api, arguments, response)
 
         return result
