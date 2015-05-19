@@ -4,15 +4,9 @@ from abc import ABCMeta, abstractproperty, abstractmethod
 from six import with_metaclass
 
 
-class APIArgumentSerializer(with_metaclass(ABCMeta, object)):
+class APIArgumentValidator(with_metaclass(ABCMeta, object)):
     @abstractmethod
-    def to_api(self, python_value):
-        """
-        """
-        pass
-
-    @abstractmethod
-    def to_python(self, api_value):
+    def validate(self, python_value):
         pass
 
 
@@ -23,7 +17,7 @@ class APIArgument(with_metaclass(ABCMeta, object)):
         self.required = required
 
     @abstractproperty
-    def serializer_class(self):
+    def validator_class(self):
         pass
 
 

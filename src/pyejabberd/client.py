@@ -191,6 +191,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
             if argument_descriptor.required and argument_name not in arguments:
                 raise IllegalArgumentError('Missing required argument "%s"' % argument_name)
 
+            # Validate argument value
+            argument_descriptor.validator_class().validate(arguments.get(argument_name))
+
         # Retrieve method
         method = getattr(self.proxy, api.method)
 

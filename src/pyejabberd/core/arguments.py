@@ -2,20 +2,20 @@
 from __future__ import unicode_literals
 
 from .definitions import APIArgument
-from .serializers import StringSerializer, IntegerSerializer, PositiveIntegerSerializer, BooleanSerializer
+from .validators import StringValidator, IntegerValidator, PositiveIntegerValidator, BooleanValidator
 
 
 class StringArgument(APIArgument):
-    serializer_class = StringSerializer
+    validator_class = StringValidator
 
 
 class IntegerArgument(APIArgument):
-    serializer_class = IntegerSerializer
+    validator_class = IntegerValidator
 
 
 class PositiveIntegerArgument(APIArgument):
-    serializer_class = PositiveIntegerSerializer
+    validator_class = PositiveIntegerValidator
 
 
 class BooleanArgument(APIArgument):
-    serializer_class = BooleanSerializer
+    validator_class = BooleanValidator
