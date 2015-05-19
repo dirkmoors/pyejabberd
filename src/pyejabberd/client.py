@@ -151,8 +151,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
             assert isinstance(argument_descriptor, APIArgument)
 
             # Validate argument presence
-            if argument_descriptor.required and argument_descriptor.name not in kwargs:
-                raise IllegalArgumentError('Missing required argument "%s"' % argument_descriptor.name)
+            argument_name = str(argument_descriptor.name)
+            if argument_descriptor.required and argument_name not in arguments:
+                raise IllegalArgumentError('Missing required argument "%s"' % argument_name)
 
         # Retrieve method
         method = getattr(self.proxy, api.method)
