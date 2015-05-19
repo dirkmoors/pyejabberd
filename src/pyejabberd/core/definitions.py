@@ -52,27 +52,39 @@ class API(with_metaclass(ABCMeta, object)):
         """
         return True
 
-    def transform_arguments(self, **kwargs):
+    def transform_arguments(self, context, **kwargs):
         """
         Handler method to transform an argument before processing
+        :param context: A dictionary containing client context info
+        :type context: dict
         :param kwargs: Named argument dictionary
+        :type kwargs: dict
+        :rtype: dict
         :return:
         """
         return kwargs
 
-    def validate_response(self, response):
+    def validate_response(self, context, response):
         """
         Handler to validate the API response. Can be used to raise an exception to indicate failure. If it does not
           raise an exception, the pipeline will continue with the 'transform_response' method.
+        :param context: A dictionary containing client context info
+        :type context: dict
         :param response:
+        :type response: object
+        :rtype: object
         :return:
         """
 
-    def transform_response(self, response):
+    def transform_response(self, context, response):
         """
         Handler method to process the response. The output of this method will be returned as the output of the API
           call.
+        :param context: A dictionary containing client context info
+        :type context: dict
         :param response:
+        :type response: object
+        :rtype: object
         :return:
         """
         return response

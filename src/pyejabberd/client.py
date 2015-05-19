@@ -73,6 +73,18 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
             'password': self.password
         }
 
+    @property
+    def context(self):
+        """
+        Returns a generic context object containing client XMPP info
+        :rtype: dict
+        :return: a generic context object containing client XMPP info
+        """
+        return {
+            'host': self.xmpp_domain,
+            'service': self.muc_service
+        }
+
     def echo(self, sentence):
         """
         Echo's the input back
@@ -92,24 +104,25 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :type kwargs: dict
         :return:
         """
+        # Validate api_class
         assert issubclass(api_class, API)
 
         # Create api instance
         api = api_class()
 
-        # Validate input
+        # Copy arguments
+        arguments = copy.copy(kwargs)
+
+        # Transform arguments
+        arguments = api.transform_arguments(self.context, **arguments)
+
+        # Validate arguments
         for argument_descriptor in api.arguments:
             assert isinstance(argument_descriptor, APIArgument)
 
             # Validate argument presence
             if argument_descriptor.required and argument_descriptor.name not in kwargs:
                 raise IllegalArgumentError('Missing required argument "%s"' % argument_descriptor.name)
-
-        # Copy arguments
-        arguments = copy.copy(kwargs)
-
-        # Transform arguments
-        arguments = api.transform_arguments(**arguments)
 
         # Retrieve method
         method = getattr(self.proxy, api.method)
@@ -121,9 +134,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
             response = method(self.auth, arguments)
 
         # Validate response
-        api.validate_response(response)
+        api.validate_response(self.context, response)
 
         # Transform response
-        result = api.transform_response(response)
+        result = api.transform_response(self.context, response)
 
         return result
