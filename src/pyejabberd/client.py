@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import xmlrpclib
 import copy
 
-from . import contract
+from . import contract, definitions
 from .core.definitions import API, APIArgument
 from .core.errors import IllegalArgumentError
 
@@ -72,6 +72,16 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
             'server': self.xmpp_domain,
             'password': self.password
         }
+
+    def echo(self, sentence):
+        """
+        Echo's the input back
+        :param sentence:
+        :type sentence: str
+        :rtype: str
+        :return: The echoed response, which should be the same as the input
+        """
+        return self._call_api(definitions.Echo, sentence=sentence)
 
     def _call_api(self, api_class, **kwargs):
         """
