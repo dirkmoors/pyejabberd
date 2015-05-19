@@ -9,11 +9,19 @@ class Echo(API):
     method = 'echothisnew'
     arguments = [StringArgument('sentence')]
 
-    def transform_response(self, response):
+    def transform_response(self, context, response):
         return response.get('repeated')
 
 
+class RegisteredUsers(API):
+    method = 'registered_users'
+    arguments = []
 
-API = [
-    Echo,
-]
+    def transform_arguments(self, context, **kwargs):
+        kwargs.update({
+            'host': context.get('host')
+        })
+        return kwargs
+
+    def transform_response(self, context, response):
+        return response.get('users', [])

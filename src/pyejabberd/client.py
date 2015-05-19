@@ -95,6 +95,14 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.Echo, sentence=sentence)
 
+    def registered_users(self):
+        """
+        List all registered users in the xmpp_host
+        :rtype: Iterable
+        :return: A list of registered users in the xmpp_host
+        """
+        return self._call_api(definitions.RegisteredUsers)
+
     def _call_api(self, api_class, **kwargs):
         """
         Internal method used to perform api calls
