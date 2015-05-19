@@ -125,6 +125,42 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.UnRegister, user=user)
 
+    def change_password(self, user, newpass):
+        """
+        Change the password for a given user
+        :param user: The username for the user we want to change the password for
+        :type user: str
+        :param newpass: The new password
+        :type newpass: str
+        :rtype: bool
+        :return: Returns a boolean indicating if the password change has succeeded
+        """
+        return self._call_api(definitions.ChangePassword, user=user, newpass=newpass)
+
+    def check_password_hash(self, user, password):
+        """
+        Checks whether a password is correct for a given user. The used hash-method is fixed to sha1.
+        :param user: The username for the user we want to check the password for
+        :type user: str
+        :param password: The password we want to check for the user
+        :type password: str
+        :rtype: bool
+        :return: Returns a boolean indicating if the given password matches the user's password
+        """
+        return self._call_api(definitions.CheckPasswordHash, user=user, password=password)
+
+    def set_nickname(self, user, nickname):
+        """
+        Set nickname in a user's vCard
+        :param user: The username for the user we want to set the nickname to
+        :type user: str
+        :param nickname: The nickname to assign to the user
+        :type nickname: str
+        :rtype: bool
+        :return: Returns a boolean indicating nickname was assigned successfully
+        """
+        return self._call_api(definitions.SetNickname, user=user, nickname=nickname)
+
     def _call_api(self, api_class, **kwargs):
         """
         Internal method used to perform api calls

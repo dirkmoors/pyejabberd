@@ -20,3 +20,15 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):
     @abstractmethod
     def unregister(self, user):
         pass
+
+    @abstractmethod
+    def change_password(self, user, newpass):
+        pass
+
+    @abstractmethod
+    def check_password_hash(self, user, password):
+        pass
+
+    @abstractmethod
+    def set_nickname(self, user, nickname):
+        pass

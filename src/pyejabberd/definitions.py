@@ -5,6 +5,7 @@ from .core.arguments import StringArgument, IntegerArgument, PositiveIntegerArgu
 from .core.definitions import API
 
 from .errors import UserAlreadyRegisteredError
+from .utils import format_password_hash_sha
 
 
 class Echo(API):
@@ -17,7 +18,7 @@ class Echo(API):
 
 class RegisteredUsers(API):
     method = 'registered_users'
-    arguments = []
+    arguments = [StringArgument('host')]
 
     def transform_arguments(self, context, **kwargs):
         kwargs.update({
@@ -31,7 +32,7 @@ class RegisteredUsers(API):
 
 class Register(API):
     method = 'register'
-    arguments = [StringArgument('user'), StringArgument('password')]
+    arguments = [StringArgument('user'), StringArgument('host'), StringArgument('password')]
 
     def transform_arguments(self, context, **kwargs):
         kwargs.update({
@@ -50,7 +51,53 @@ class Register(API):
 
 class UnRegister(API):
     method = 'unregister'
-    arguments = [StringArgument('user')]
+    arguments = [StringArgument('user'), StringArgument('host')]
+
+    def transform_arguments(self, context, **kwargs):
+        kwargs.update({
+            'host': context.get('host')
+        })
+        return kwargs
+
+    def transform_response(self, context, api, arguments, response):
+        return response.get('res') == 0
+
+
+class ChangePassword(API):
+    method = 'change_password'
+    arguments = [StringArgument('user'), StringArgument('host'), StringArgument('newpass')]
+
+    def transform_arguments(self, context, **kwargs):
+        kwargs.update({
+            'host': context.get('host')
+        })
+        return kwargs
+
+    def transform_response(self, context, api, arguments, response):
+        return response.get('res') == 0
+
+
+class CheckPasswordHash(API):
+    method = 'check_password_hash'
+    arguments = [StringArgument('user'), StringArgument('host'), StringArgument('passwordhash'),
+                 StringArgument('hashmethod')]
+
+    def transform_arguments(self, context, **kwargs):
+        passwordhash = format_password_hash_sha(password=kwargs.pop('password'))
+        kwargs.update({
+            'host': context.get('host'),
+            'passwordhash': passwordhash,
+            'hashmethod': 'sha'
+        })
+        return kwargs
+
+    def transform_response(self, context, api, arguments, response):
+        return response.get('res') == 0
+
+
+class SetNickname(API):
+    method = 'set_nickname'
+    arguments = [StringArgument('user'), StringArgument('host'), StringArgument('nickname')]
 
     def transform_arguments(self, context, **kwargs):
         kwargs.update({
