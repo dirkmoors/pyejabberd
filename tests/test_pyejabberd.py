@@ -5,6 +5,7 @@ import os
 import traceback
 
 from pyejabberd import EjabberdAPIClient, muc
+from pyejabberd.errors import UserAlreadyRegisteredError
 
 HOST = os.environ.get('PYEJABBERD_TESTS_HOST', 'localhost')
 PORT = int(os.environ.get('PYEJABBERD_TESTS_PORT', 4560))
@@ -160,6 +161,22 @@ class EjabberdAPITests(unittest.TestCase):
         result = self.api.register(username, password='test')
         self.assertTrue(result)
         self.assertTrue(self._is_registered(username))
+
+        self._remove_user(username)
+
+    def test_username_already_exists(self):
+        username = 'test_user_123'
+
+        result = self.api.register(username, password='test')
+        self.assertTrue(result)
+        self.assertTrue(self._is_registered(username))
+
+        error_thrown = False
+        try:
+            self.api.register(username, password='test')
+        except UserAlreadyRegisteredError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
 
         self._remove_user(username)
 
