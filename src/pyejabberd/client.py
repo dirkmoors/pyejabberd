@@ -103,6 +103,28 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.RegisteredUsers)
 
+    def register(self, user, password):
+        """
+        Registers a user to the ejabberd server
+        :param user: The username for the new user
+        :type user: str
+        :param password: The password for the new user
+        :type password: str
+        :rtype: bool
+        :return: Returns a boolean indicating if the registration has succeeded
+        """
+        return self._call_api(definitions.Register, user=user, password=password)
+
+    def unregister(self, user):
+        """
+        UnRegisters a user from the ejabberd server
+        :param user: The username for the new user
+        :type user: str
+        :rtype: bool
+        :return: Returns a boolean indicating if the unregistration has succeeded
+        """
+        return self._call_api(definitions.UnRegister, user=user)
+
     def _call_api(self, api_class, **kwargs):
         """
         Internal method used to perform api calls

@@ -12,3 +12,11 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):
     @abstractmethod
     def registered_users(self):
         pass
+
+    @abstractmethod
+    def register(self, user, password):
+        pass
+
+    @abstractmethod
+    def unregister(self, user):
+        pass
