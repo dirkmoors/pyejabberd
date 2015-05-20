@@ -225,22 +225,28 @@ class EjabberdAPITests(unittest.TestCase):
         return full_name in online_rooms
 
     def _remove_user(self, username, host):
-        while True:
+        attempt = 0
+        while attempt < 10:
             result = self.api.unregister(username, host=host)
             if not result:
+                attempt += 1
                 continue
             if not self._is_registered(username, host=host):
                 break
             print('_remove_user: retrying for username: %s' % username)
+            attempt += 1
 
     def _remove_room(self, name, service, host):
-        while True:
+        attempt = 0
+        while attempt < 10:
             result = self.api.destroy_room(name, service=service, host=host)
             if not result:
+                attempt += 1
                 continue
             if not self._is_online_room(name, service=service):
                 break
             print('_remove_room: retrying for room: %s' % name)
+            attempt += 1
 
 if __name__ == '__main__':
     unittest.main()
