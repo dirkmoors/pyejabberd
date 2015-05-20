@@ -31,6 +31,7 @@ if sys.argv[-1] == 'publish':
     print("  git push --tags")
     sys.exit()
 
+
 def read(*names, **kwargs):
     return io.open(
         join(dirname(__file__), *names),
