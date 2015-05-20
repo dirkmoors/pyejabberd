@@ -115,3 +115,11 @@ class GetRoomOptions(API):
             name_dict, value_dict = option
             result[name_dict['name']] = value_dict['value']
         return result
+
+
+class ChangeRoomOption(API):
+    method = 'change_room_option'
+    arguments = [StringArgument('name'), StringArgument('service'), StringArgument('option'), StringArgument('value')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0

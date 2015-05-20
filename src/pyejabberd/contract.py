@@ -48,3 +48,7 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):
     @abstractmethod
     def get_room_options(self, name, service):
         pass
+
+    @abstractmethod
+    def change_room_option(self, name, service, option, value):
+        pass

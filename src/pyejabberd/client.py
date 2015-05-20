@@ -208,6 +208,22 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.GetRoomOptions, name=name, service=service)
 
+    def change_room_option(self, name, service, option, value):
+        """
+        Change an option in a MUC room
+        :param name: The name for the room
+        :type name: str
+        :param service: The MUC service name (e.g. "conference")
+        :type service: str
+        :param option: The option to change
+        :type option: str
+        :param value: The new value
+        :type value: str|int|bool
+        :rtype: bool
+        :return: A boolean indicating whether the room option has been changed successfully
+        """
+        return self._call_api(definitions.ChangeRoomOption, name=name, service=service, option=option, value=value)
+
     def _call_api(self, api_class, **kwargs):
         """
         Internal method used to perform api calls
