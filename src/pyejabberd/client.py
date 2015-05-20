@@ -99,7 +99,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :param password: The password for the new user
         :type password: str
         :rtype: bool
-        :return: Returns a boolean indicating if the registration has succeeded
+        :return: A boolean indicating if the registration has succeeded
         """
         return self._call_api(definitions.Register, user=user, host=host, password=password)
 
@@ -111,7 +111,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :param host: The XMPP_DOMAIN
         :type host: str
         :rtype: bool
-        :return: Returns a boolean indicating if the unregistration has succeeded
+        :return: A boolean indicating if the unregistration has succeeded
         """
         return self._call_api(definitions.UnRegister, user=user, host=host)
 
@@ -125,7 +125,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :param newpass: The new password
         :type newpass: str
         :rtype: bool
-        :return: Returns a boolean indicating if the password change has succeeded
+        :return: A boolean indicating if the password change has succeeded
         """
         return self._call_api(definitions.ChangePassword, user=user, host=host, newpass=newpass)
 
@@ -139,7 +139,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :param password: The password we want to check for the user
         :type password: str
         :rtype: bool
-        :return: Returns a boolean indicating if the given password matches the user's password
+        :return: A boolean indicating if the given password matches the user's password
         """
         return self._call_api(definitions.CheckPasswordHash, user=user, host=host, password=password)
 
@@ -153,7 +153,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :param nickname: The nickname to assign to the user
         :type nickname: str
         :rtype: bool
-        :return: Returns a boolean indicating nickname was assigned successfully
+        :return: A boolean indicating nickname was assigned successfully
         """
         return self._call_api(definitions.SetNickname, user=user, host=host, nickname=nickname)
 
@@ -162,7 +162,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         List existing rooms ('global' to get all vhosts)
         :param host: The XMPP_DOMAIN
         :type host: str
-        :return:
+        :rtype: Iterable
+        :return: A list of online rooms in the format 'name@service'
         """
         host = host or 'global'
         return self._call_api(definitions.MucOnlineRooms, host=host)
@@ -176,7 +177,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :type service: str
         :param host: The XMPP_DOMAIN
         :type host: str
-        :return:
+        :rtype: bool
+        :return: A boolean indicating whether the room has been created successfully
         """
         return self._call_api(definitions.CreateRoom, name=name, service=service, host=host)
 
