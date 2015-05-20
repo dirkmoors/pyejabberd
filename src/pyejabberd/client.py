@@ -38,6 +38,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         self.user_domain = user_domain
         self.protocol = protocol
         self.verbose = verbose
+        self._proxy = None
 
     @property
     def service_url(self):
@@ -54,7 +55,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :rtype: :py:class:xmlrpclib.ServerProxy
         :return the proxy object that is used to perform the calls to the XML-RPC endpoint
         """
-        return xmlrpclib.ServerProxy(self.service_url, verbose=(1 if self.verbose else 0))
+        if self._proxy is None:
+            self._proxy = xmlrpclib.ServerProxy(self.service_url, verbose=(1 if self.verbose else 0))
+        return self._proxy
 
     @property
     def auth(self):
