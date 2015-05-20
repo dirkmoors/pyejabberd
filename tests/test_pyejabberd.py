@@ -219,33 +219,25 @@ class EjabberdAPITests(unittest.TestCase):
     def test_create_destroy_room(self):
         room = 'testroom_1'
 
-        try:
-            result = self.api.create_room(room, service=MUC_SERVICE, host=XMPP_DOMAIN)
-            self.assertTrue(result)
-            self.assertTrue(self._is_online_room(room, service=MUC_SERVICE))
-        except:
-            traceback.print_exc()
-        finally:
-            self._remove_room(room, service=MUC_SERVICE, host=XMPP_DOMAIN)
-    #
-    # def test_get_room_options(self):
-    #     roomjid = self._create_roomjid(roomname='testroom_2')
-    #
-    #     try:
-    #         result = self.api.create_room(roomjid)
-    #         self.assertTrue(result)
-    #         self.assertTrue(self._is_online_room(roomjid))
-    #
-    #         result = self.api.get_room_options(roomjid)
-    #         self.assertTrue(isinstance(result, dict))
-    #         size = len(result)
-    #         print(size)
-    #     except:
-    #         traceback.print_exc()
-    #     finally:
-    #         self._remove_room(roomjid)
-    #
-    #
+        result = self.api.create_room(room, service=MUC_SERVICE, host=XMPP_DOMAIN)
+        self.assertTrue(result)
+        self.assertTrue(self._is_online_room(room, service=MUC_SERVICE))
+        self._remove_room(room, service=MUC_SERVICE, host=XMPP_DOMAIN)
+
+    def test_get_room_options(self):
+        room = 'testroom_1'
+
+        result = self.api.create_room(room, service=MUC_SERVICE, host=XMPP_DOMAIN)
+        self.assertTrue(result)
+        self.assertTrue(self._is_online_room(room, service=MUC_SERVICE))
+
+        result = self.api.get_room_options(room, service=MUC_SERVICE)
+        self.assertTrue(isinstance(result, dict))
+        size = len(result)
+        print(size)
+        self._remove_room(room, service=MUC_SERVICE, host=XMPP_DOMAIN)
+
+
     # def test_change_room_option(self):
     #     roomjid = self._create_roomjid(roomname='testroom_3')
     #

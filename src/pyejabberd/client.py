@@ -191,9 +191,22 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :type service: str
         :param host: The XMPP_DOMAIN
         :type host: str
-        :return:
+        :rtype: bool
+        :return: A boolean indicating whether the room has been destroyed successfully
         """
         return self._call_api(definitions.DestroyRoom, name=name, service=service, host=host)
+
+    def get_room_options(self, name, service):
+        """
+        Get options from a MUC room
+        :param name: The name for the room
+        :type name: str
+        :param service: The MUC service name (e.g. "conference")
+        :type service: str
+        :rtype: dict
+        :return: A dict containing the room options
+        """
+        return self._call_api(definitions.GetRoomOptions, name=name, service=service)
 
     def _call_api(self, api_class, **kwargs):
         """

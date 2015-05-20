@@ -44,3 +44,7 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):
     @abstractmethod
     def destroy_room(self, name, service, host):
         pass
+
+    @abstractmethod
+    def get_room_options(self, name, service):
+        pass

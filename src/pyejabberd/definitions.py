@@ -100,3 +100,18 @@ class DestroyRoom(API):
 
     def transform_response(self, api, arguments, response):
         return response.get('res') == 0
+
+
+class GetRoomOptions(API):
+    method = 'get_room_options'
+    arguments = [StringArgument('name'), StringArgument('service')]
+
+    def transform_response(self, api, arguments, response):
+        result = {}
+        for option_dict in response.get('options', []):
+            option = option_dict.get('option', None)
+            if option is None:
+                continue
+            name_dict, value_dict = option
+            result[name_dict['name']] = value_dict['value']
+        return result
