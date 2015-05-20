@@ -140,8 +140,9 @@ Available commands in this ejabberd node:
 class EjabberdAPITests(unittest.TestCase):
     def setUp(self):
         verbose = True
-        self.api = EjabberdAPIClient(host=HOST, port=PORT, username=USERNAME, password=PASSWORD, xmpp_domain=XMPP_DOMAIN,
-                                     muc_service=MUC_SERVICE, protocol=PROTOCOL, verbose=VERBOSE)
+        self.api = EjabberdAPIClient(
+            host=HOST, port=PORT, username=USERNAME, password=PASSWORD, user_domain=XMPP_DOMAIN, protocol=PROTOCOL,
+            verbose=VERBOSE)
         self.assertIsNotNone(self.api)
 
     def test_echo(self):
@@ -151,14 +152,14 @@ class EjabberdAPITests(unittest.TestCase):
         self.assertEqual(result, sentence)
 
     def test_registered_users(self):
-        result = self.api.registered_users()
+        result = self.api.registered_users(XMPP_DOMAIN)
         self.assertTrue(isinstance(result, (list, tuple)))
         self.assertTrue(self._is_registered('admin', registered_users=result))
 
     def test_register_unregister_user(self):
         username = 'test_user_123'
 
-        result = self.api.register(username, password='test')
+        result = self.api.register(username, host=XMPP_DOMAIN, password='test')
         self.assertTrue(result)
         self.assertTrue(self._is_registered(username))
 
@@ -167,13 +168,13 @@ class EjabberdAPITests(unittest.TestCase):
     def test_username_already_exists(self):
         username = 'test_user_123'
 
-        result = self.api.register(username, password='test')
+        result = self.api.register(username, host=XMPP_DOMAIN, password='test')
         self.assertTrue(result)
         self.assertTrue(self._is_registered(username))
 
         error_thrown = False
         try:
-            self.api.register(username, password='test')
+            self.api.register(username, password='test', host=XMPP_DOMAIN)
         except UserAlreadyRegisteredError:
             error_thrown = True
         self.assertTrue(error_thrown)
@@ -183,23 +184,23 @@ class EjabberdAPITests(unittest.TestCase):
     def test_change_check_password(self):
         username = 'test_user_456'
 
-        result = self.api.register(username, password='test')
+        result = self.api.register(username, host=XMPP_DOMAIN, password='test')
         self.assertTrue(result)
         self.assertTrue(self._is_registered(username))
 
-        result = self.api.check_password_hash(username, password='test')
+        result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test')
         self.assertTrue(result)
 
-        result = self.api.check_password_hash(username, password='test2')
+        result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test2')
         self.assertFalse(result)
 
-        result = self.api.change_password(username, newpass='test2')
+        result = self.api.change_password(username, host=XMPP_DOMAIN, newpass='test2')
         self.assertTrue(result)
 
-        result = self.api.check_password_hash(username, password='test')
+        result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test')
         self.assertFalse(result)
 
-        result = self.api.check_password_hash(username, password='test2')
+        result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test2')
         self.assertTrue(result)
 
         self._remove_user(username)
@@ -207,11 +208,11 @@ class EjabberdAPITests(unittest.TestCase):
     def test_set_nickname(self):
         username = 'test_user_789'
 
-        result = self.api.register(username, password='test')
+        result = self.api.register(username, host=XMPP_DOMAIN, password='test')
         self.assertTrue(result)
         self.assertTrue(self._is_registered(username))
 
-        result = self.api.set_nickname(username, nickname='blabla')
+        result = self.api.set_nickname(username, host=XMPP_DOMAIN, nickname='blabla')
         self.assertTrue(result)
         self._remove_user(username)
 
@@ -315,7 +316,7 @@ class EjabberdAPITests(unittest.TestCase):
     #         self._remove_room(roomjid)
 
     def _is_registered(self, username, registered_users=None):
-        registered_users = registered_users or self.api.registered_users()
+        registered_users = registered_users or self.api.registered_users(host=XMPP_DOMAIN)
         registered_users = [struct.get('username') for struct in registered_users]
         return username in registered_users
 
@@ -325,7 +326,7 @@ class EjabberdAPITests(unittest.TestCase):
 
     def _remove_user(self, username):
         while True:
-            result = self.api.unregister(username)
+            result = self.api.unregister(username, host=XMPP_DOMAIN)
             self.assertTrue(result)
             if not self._is_registered(username):
                 break

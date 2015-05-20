@@ -13,8 +13,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
     """
     Python Client for the Ejabberd XML-RPC API
     """
-    def __init__(self, host, port, username, password, xmpp_domain, muc_service="conference", protocol='https',
-                 verbose=False):
+    def __init__(self, host, port, username, password, user_domain, protocol='https', verbose=False):
         """
         Constructor
         :param host:
@@ -25,10 +24,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :type username: str
         :param password:
         :type password: str
-        :param xmpp_domain:
-        :type xmpp_domain: str
-        :param muc_service:
-        :type muc_service: str
+        :param user_domain:
+        :type user_domain: str
         :param protocol:
         :type protocol: str
         :param verbose:
@@ -38,8 +35,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         self.port = port
         self.username = username
         self.password = password
-        self.xmpp_domain = xmpp_domain
-        self.muc_service = muc_service
+        self.user_domain = user_domain
         self.protocol = protocol
         self.verbose = verbose
 
@@ -69,20 +65,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return {
             'user': self.username,
-            'server': self.xmpp_domain,
+            'server': self.user_domain,
             'password': self.password
-        }
-
-    @property
-    def context(self):
-        """
-        Returns a generic context object containing client XMPP info
-        :rtype: dict
-        :return: a generic context object containing client XMPP info
-        """
-        return {
-            'host': self.xmpp_domain,
-            'service': self.muc_service
         }
 
     def echo(self, sentence):
@@ -95,71 +79,83 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.Echo, sentence=sentence)
 
-    def registered_users(self):
+    def registered_users(self, host):
         """
         List all registered users in the xmpp_host
+        :param host: The XMPP_DOMAIN
+        :type host: str
         :rtype: Iterable
         :return: A list of registered users in the xmpp_host
         """
-        return self._call_api(definitions.RegisteredUsers)
+        return self._call_api(definitions.RegisteredUsers, host=host)
 
-    def register(self, user, password):
+    def register(self, user, host, password):
         """
         Registers a user to the ejabberd server
         :param user: The username for the new user
         :type user: str
+        :param host: The XMPP_DOMAIN
+        :type host: str
         :param password: The password for the new user
         :type password: str
         :rtype: bool
         :return: Returns a boolean indicating if the registration has succeeded
         """
-        return self._call_api(definitions.Register, user=user, password=password)
+        return self._call_api(definitions.Register, user=user, host=host, password=password)
 
-    def unregister(self, user):
+    def unregister(self, user, host):
         """
         UnRegisters a user from the ejabberd server
         :param user: The username for the new user
         :type user: str
+        :param host: The XMPP_DOMAIN
+        :type host: str
         :rtype: bool
         :return: Returns a boolean indicating if the unregistration has succeeded
         """
-        return self._call_api(definitions.UnRegister, user=user)
+        return self._call_api(definitions.UnRegister, user=user, host=host)
 
-    def change_password(self, user, newpass):
+    def change_password(self, user, host, newpass):
         """
         Change the password for a given user
         :param user: The username for the user we want to change the password for
         :type user: str
+        :param host: The XMPP_DOMAIN
+        :type host: str
         :param newpass: The new password
         :type newpass: str
         :rtype: bool
         :return: Returns a boolean indicating if the password change has succeeded
         """
-        return self._call_api(definitions.ChangePassword, user=user, newpass=newpass)
+        return self._call_api(definitions.ChangePassword, user=user, host=host, newpass=newpass)
 
-    def check_password_hash(self, user, password):
+    def check_password_hash(self, user, host, password):
         """
         Checks whether a password is correct for a given user. The used hash-method is fixed to sha1.
         :param user: The username for the user we want to check the password for
         :type user: str
+        :param host: The XMPP_DOMAIN
+        :type host: str
         :param password: The password we want to check for the user
         :type password: str
         :rtype: bool
         :return: Returns a boolean indicating if the given password matches the user's password
         """
-        return self._call_api(definitions.CheckPasswordHash, user=user, password=password)
+        return self._call_api(definitions.CheckPasswordHash, user=user, host=host, password=password)
 
-    def set_nickname(self, user, nickname):
+    def set_nickname(self, user, host, nickname):
         """
         Set nickname in a user's vCard
         :param user: The username for the user we want to set the nickname to
         :type user: str
+        :param host: The XMPP_DOMAIN
+        :type host: str
         :param nickname: The nickname to assign to the user
         :type nickname: str
         :rtype: bool
         :return: Returns a boolean indicating nickname was assigned successfully
         """
-        return self._call_api(definitions.SetNickname, user=user, nickname=nickname)
+        return self._call_api(definitions.SetNickname, user=user, host=host, nickname=nickname)
 
     def _call_api(self, api_class, **kwargs):
         """
@@ -180,7 +176,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         arguments = copy.copy(kwargs)
 
         # Transform arguments
-        arguments = api.transform_arguments(self.context, **arguments)
+        arguments = api.transform_arguments(**arguments)
 
         # Validate arguments
         for argument_descriptor in api.arguments:
@@ -204,9 +200,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
             response = method(self.auth, arguments)
 
         # Validate response
-        api.validate_response(self.context, api, arguments, response)
+        api.validate_response(api, arguments, response)
 
         # Transform response
-        result = api.transform_response(self.context, api, arguments, response)
+        result = api.transform_response(api, arguments, response)
 
         return result

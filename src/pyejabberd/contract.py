@@ -10,25 +10,25 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):
         pass
 
     @abstractmethod
-    def registered_users(self):
+    def registered_users(self, host):
         pass
 
     @abstractmethod
-    def register(self, user, password):
+    def register(self, user, host, password):
         pass
 
     @abstractmethod
-    def unregister(self, user):
+    def unregister(self, user, host):
         pass
 
     @abstractmethod
-    def change_password(self, user, newpass):
+    def change_password(self, user, host, newpass):
         pass
 
     @abstractmethod
-    def check_password_hash(self, user, password):
+    def check_password_hash(self, user, host, password):
         pass
 
     @abstractmethod
-    def set_nickname(self, user, nickname):
+    def set_nickname(self, user, host, nickname):
         pass
