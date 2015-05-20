@@ -157,6 +157,42 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.SetNickname, user=user, host=host, nickname=nickname)
 
+    def muc_online_rooms(self, host=None):
+        """
+        List existing rooms ('global' to get all vhosts)
+        :param host: The XMPP_DOMAIN
+        :type host: str
+        :return:
+        """
+        host = host or 'global'
+        return self._call_api(definitions.MucOnlineRooms, host=host)
+
+    def create_room(self, name, service, host):
+        """
+        Create a MUC room name@service in host
+        :param name: The name for the room
+        :type name: str
+        :param service: The MUC service name (e.g. "conference")
+        :type service: str
+        :param host: The XMPP_DOMAIN
+        :type host: str
+        :return:
+        """
+        return self._call_api(definitions.CreateRoom, name=name, service=service, host=host)
+
+    def destroy_room(self, name, service, host):
+        """
+        Destroy a MUC room
+        :param name: The name for the room
+        :type name: str
+        :param service: The MUC service name (e.g. "conference")
+        :type service: str
+        :param host: The XMPP_DOMAIN
+        :type host: str
+        :return:
+        """
+        return self._call_api(definitions.DestroyRoom, name=name, service=service, host=host)
+
     def _call_api(self, api_class, **kwargs):
         """
         Internal method used to perform api calls

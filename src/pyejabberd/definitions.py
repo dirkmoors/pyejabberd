@@ -76,3 +76,27 @@ class SetNickname(API):
 
     def transform_response(self, api, arguments, response):
         return response.get('res') == 0
+
+
+class MucOnlineRooms(API):
+    method = 'muc_online_rooms'
+    arguments = [StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return [result_dict.get('room') for result_dict in response.get('rooms', {})]
+
+
+class CreateRoom(API):
+    method = 'create_room'
+    arguments = [StringArgument('name'), StringArgument('service'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0
+
+
+class DestroyRoom(API):
+    method = 'destroy_room'
+    arguments = [StringArgument('name'), StringArgument('service'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0

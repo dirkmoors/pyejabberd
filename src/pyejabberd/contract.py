@@ -32,3 +32,15 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):
     @abstractmethod
     def set_nickname(self, user, host, nickname):
         pass
+
+    @abstractmethod
+    def muc_online_rooms(self, host=None):
+        pass
+
+    @abstractmethod
+    def create_room(self, name, service, host):
+        pass
+
+    @abstractmethod
+    def destroy_room(self, name, service, host):
+        pass
