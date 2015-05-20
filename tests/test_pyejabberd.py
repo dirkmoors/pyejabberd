@@ -320,7 +320,8 @@ class EjabberdAPITests(unittest.TestCase):
     def _remove_user(self, username, host):
         while True:
             result = self.api.unregister(username, host=host)
-            self.assertTrue(result)
+            if not result:
+                continue
             if not self._is_registered(username, host=host):
                 break
             print('_remove_user: retrying for username: %s' % username)
@@ -328,7 +329,8 @@ class EjabberdAPITests(unittest.TestCase):
     def _remove_room(self, name, service, host):
         while True:
             result = self.api.destroy_room(name, service=service, host=host)
-            self.assertTrue(result)
+            if not result:
+                continue
             if not self._is_online_room(name, service=service):
                 break
             print('_remove_room: retrying for room: %s' % name)
