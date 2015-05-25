@@ -2,11 +2,15 @@
 from __future__ import unicode_literals, print_function
 import unittest
 import os
-import traceback
 
 from pyejabberd import EjabberdAPIClient
 from pyejabberd.muc import MUCRoomOption
 from pyejabberd.errors import UserAlreadyRegisteredError
+from pyejabberd.core.arguments import StringArgument, BooleanArgument, IntegerArgument, PositiveIntegerArgument
+from pyejabberd.muc.arguments import MUCRoomArgument
+from pyejabberd.utils import format_password_hash_md5, format_password_hash_sha
+
+
 
 HOST = os.environ.get('PYEJABBERD_TESTS_HOST', 'localhost')
 PORT = int(os.environ.get('PYEJABBERD_TESTS_PORT', 4560))
@@ -118,7 +122,6 @@ class EjabberdAPITests(unittest.TestCase):
         print(size)
         self._remove_room(room, service=MUC_SERVICE, host=XMPP_DOMAIN)
 
-
     def test_change_room_option(self):
         room = 'testroom_3'
 
@@ -222,7 +225,7 @@ class EjabberdAPITests(unittest.TestCase):
         full_name = '%s@%s' % (name, service)
         return full_name in online_rooms
 
-    def _remove_user(self, username, host):
+    def _remove_user(self, username, host):  # pragma: no cover
         attempt = 0
         while attempt < 10:
             result = self.api.unregister(username, host=host)
@@ -234,7 +237,7 @@ class EjabberdAPITests(unittest.TestCase):
             print('_remove_user: retrying for username: %s' % username)
             attempt += 1
 
-    def _remove_room(self, name, service, host):
+    def _remove_room(self, name, service, host):  # pragma: no cover
         attempt = 0
         while attempt < 10:
             result = self.api.destroy_room(name, service=service, host=host)
@@ -246,5 +249,167 @@ class EjabberdAPITests(unittest.TestCase):
             print('_remove_room: retrying for room: %s' % name)
             attempt += 1
 
-if __name__ == '__main__':
+
+class LibraryTests(unittest.TestCase):
+    def test_string_argument(self):
+        serializer = self._test_argument_and_get_serializer(StringArgument)
+
+        result = serializer.to_api('abc')
+        self.assertEqual(result, 'abc')
+
+        result = serializer.to_python('abc')
+        self.assertEqual(result, 'abc')
+
+        error_thrown = False
+        try:
+            serializer.to_api(123)
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+        error_thrown = False
+        try:
+            serializer.to_python(False)
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+    def test_integer_argument(self):
+        serializer = self._test_argument_and_get_serializer(IntegerArgument)
+
+        result = serializer.to_api(123)
+        self.assertEqual(result, '123')
+
+        result = serializer.to_python('-123')
+        self.assertEqual(result, -123)
+
+        error_thrown = False
+        try:
+            serializer.to_api('123')
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+        error_thrown = False
+        try:
+            serializer.to_python('bla')
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+    def test_positive_integer_argument(self):
+        serializer = self._test_argument_and_get_serializer(PositiveIntegerArgument)
+
+        result = serializer.to_api(123)
+        self.assertEqual(result, '123')
+
+        result = serializer.to_python('123')
+        self.assertEqual(result, 123)
+
+        error_thrown = False
+        try:
+            serializer.to_api(-15)
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+        error_thrown = False
+        try:
+            serializer.to_python('-123')
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+    def test_boolean_argument(self):
+        serializer = self._test_argument_and_get_serializer(BooleanArgument)
+
+        result = serializer.to_api(True)
+        self.assertEqual(result, 'true')
+
+        result = serializer.to_api(False)
+        self.assertEqual(result, 'false')
+
+        result = serializer.to_python('true')
+        self.assertEqual(result, True)
+
+        result = serializer.to_python('false')
+        self.assertEqual(result, False)
+
+        error_thrown = False
+        try:
+            serializer.to_api(-15)
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+        error_thrown = False
+        try:
+            serializer.to_python('123')
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+    def test_mucroom_argument(self):
+        serializer = self._test_argument_and_get_serializer(MUCRoomArgument)
+
+        result = serializer.to_api(MUCRoomOption.allow_change_subj)
+        self.assertEqual(result, 'allow_change_subj')
+
+        result = serializer.to_api(MUCRoomOption.allow_change_subj.name)
+        self.assertEqual(result, 'allow_change_subj')
+
+        result = serializer.to_python('allow_change_subj')
+        self.assertEqual(result, MUCRoomOption.allow_change_subj)
+
+        error_thrown = False
+        try:
+            serializer.to_api(-15)
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+        error_thrown = False
+        try:
+            serializer.to_python('123')
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+        error_thrown = False
+        try:
+            serializer.to_python({})
+        except ValueError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+
+    def test_sha_hash(self):
+        result = format_password_hash_sha('test')
+        self.assertEqual(str(result), 'A94A8FE5CCB19BA61C4C873D391E987982FBBD3')
+
+    def test_md5_hash(self):
+        result = format_password_hash_md5('test')
+        self.assertEqual(str(result), '98F6BCD4621D373CADE4E832627B4F6')
+
+    def _test_argument_and_get_serializer(self, argument_class):
+        arg_name = 'arg_name'
+        arg_description = 'arg_description'
+        arg_required = True
+
+        # Test constructor
+        arg = argument_class(arg_name, arg_description, arg_required)
+        self.assertEqual(arg.name, arg_name)
+        self.assertEqual(arg.description, arg_description)
+        self.assertEqual(arg.required, arg_required)
+
+        # Test Serializer class presence
+        serializer_class = arg.serializer_class
+        self.assertIsNotNone(serializer_class)
+
+        # Test Serializer
+        serializer = serializer_class()
+
+        return serializer
+
+
+if __name__ == '__main__':  # pragma: no cover
     unittest.main()

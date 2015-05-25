@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 from six import with_metaclass
 
 
-class EjabberdAPIContract(with_metaclass(ABCMeta, object)):
+class EjabberdAPIContract(with_metaclass(ABCMeta, object)):  # pragma: no cover
     @abstractmethod
     def echo(self, sentence):
         pass

@@ -113,9 +113,9 @@ class GetRoomOptions(API):
     def transform_response(self, api, arguments, response):
         result = {}
         for option_dict in response.get('options', []):
-            option = option_dict.get('option', None)
+            option = option_dict.get('option')
             if option is None:
-                continue
+                raise ValueError('Unexpected option in response: ' % str(option_dict))
             name_dict, value_dict = option
             result[name_dict['name']] = value_dict['value']
         return result

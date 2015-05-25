@@ -8,3 +8,6 @@ flake8>=2.4.0
 collective.checkdocs>=0.2
 pygments>=2.0.2
 sphinx_py3doc_enhanced_theme>=2.0.1
+pyopenssl>=0.15.1
+ndg-httpsclient>=0.4.0
+pyasn1>=0.1.7

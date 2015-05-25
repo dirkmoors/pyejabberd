@@ -13,7 +13,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
     """
     Python Client for the Ejabberd XML-RPC API
     """
-    def __init__(self, host, port, username, password, user_domain, protocol='https', verbose=False):
+    def __init__(self, host, port, username, password, user_domain, **kwargs):
         """
         Constructor
         :param host:
@@ -26,18 +26,14 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :type password: str
         :param user_domain:
         :type user_domain: str
-        :param protocol:
-        :type protocol: str
-        :param verbose:
-        :type verbose: bool
         """
         self.host = host
         self.port = port
         self.username = username
         self.password = password
         self.user_domain = user_domain
-        self.protocol = protocol
-        self.verbose = verbose
+        self.protocol = kwargs.get('protocol', 'https')
+        self.verbose = kwargs.get('verbose', False)
         self._proxy = None
 
     @property
