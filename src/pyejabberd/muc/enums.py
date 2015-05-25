@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from enum import Enum
+from ..core.definitions import Enum
 
 
 MUCRoomOption = Enum(

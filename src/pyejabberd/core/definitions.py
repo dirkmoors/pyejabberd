@@ -1,12 +1,29 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
+
 from abc import ABCMeta, abstractproperty, abstractmethod
 from six import with_metaclass
 
+from enum import Enum as BaseEnum
 
-class APIArgumentValidator(with_metaclass(ABCMeta, object)):
+
+class Enum(BaseEnum):
+    @classmethod
+    def get_by_name(cls, name):
+        return getattr(cls, name, None)
+
+    @classmethod
+    def get_by_value(cls, value):
+        return cls(value)
+
+
+class APIArgumentSerializer(with_metaclass(ABCMeta, object)):
     @abstractmethod
-    def validate(self, python_value):
+    def to_api(self, python_value):
+        pass
+
+    @abstractmethod
+    def to_python(self, api_value):
         pass
 
 
@@ -17,7 +34,7 @@ class APIArgument(with_metaclass(ABCMeta, object)):
         self.required = required
 
     @abstractproperty
-    def validator_class(self):
+    def serializer_class(self):
         pass
 
 

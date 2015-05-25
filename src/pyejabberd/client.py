@@ -249,7 +249,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         arguments = api.transform_arguments(**arguments)
 
         # Validate arguments
-        for argument_descriptor in api.arguments:
+        for i in xrange(len(api.arguments)):
+            argument_descriptor = api.arguments[i]
             assert isinstance(argument_descriptor, APIArgument)
 
             # Validate argument presence
@@ -257,8 +258,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
             if argument_descriptor.required and argument_name not in arguments:
                 raise IllegalArgumentError('Missing required argument "%s"' % argument_name)
 
-            # Validate argument value
-            argument_descriptor.validator_class().validate(arguments.get(argument_name))
+            # Serializer argument value
+            arguments[argument_descriptor.name] = \
+                argument_descriptor.serializer_class().to_api(arguments.get(argument_name))
 
         # Retrieve method
         method = getattr(self.proxy, api.method)

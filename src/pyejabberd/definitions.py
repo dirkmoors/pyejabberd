@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from .core.arguments import StringArgument, IntegerArgument, PositiveIntegerArgument, BooleanArgument
+from .core.arguments import StringArgument
 from .core.definitions import API
+from .core.serializers import StringSerializer
+from .muc import MUCRoomOptions
+from .muc.arguments import MUCRoomArgument
+from .muc.enums import MUCRoomOption
 
 from .errors import UserAlreadyRegisteredError
 from .utils import format_password_hash_sha
@@ -119,7 +123,14 @@ class GetRoomOptions(API):
 
 class ChangeRoomOption(API):
     method = 'change_room_option'
-    arguments = [StringArgument('name'), StringArgument('service'), StringArgument('option'), StringArgument('value')]
+    arguments = [StringArgument('name'), StringArgument('service'), MUCRoomArgument('option'), StringArgument('value')]
+
+    def transform_arguments(self, **kwargs):
+        option = kwargs.get('option')
+        assert isinstance(option, MUCRoomOption)
+        serializer_class = MUCRoomOptions.get(option.name, StringSerializer)
+        kwargs['value'] = serializer_class().to_api(kwargs['value'])
+        return kwargs
 
     def transform_response(self, api, arguments, response):
         return response.get('res') == 0

@@ -4,7 +4,8 @@ import unittest
 import os
 import traceback
 
-from pyejabberd import EjabberdAPIClient, muc
+from pyejabberd import EjabberdAPIClient
+from pyejabberd.muc import MUCRoomOption
 from pyejabberd.errors import UserAlreadyRegisteredError
 
 HOST = os.environ.get('PYEJABBERD_TESTS_HOST', 'localhost')
@@ -126,93 +127,90 @@ class EjabberdAPITests(unittest.TestCase):
         self.assertTrue(self._is_online_room(room, service=MUC_SERVICE))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.allow_change_subj.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.allow_change_subj, value=False))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.allow_change_subj.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.allow_change_subj, value=True))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.allow_private_messages.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.allow_private_messages, value=False))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.allow_private_messages.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.allow_private_messages, value=True))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.allow_query_users.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.allow_query_users, value=False))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.allow_query_users.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.allow_query_users, value=True))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.allow_user_invites.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.allow_user_invites, value=False))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.allow_user_invites.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.allow_user_invites, value=True))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.anonymous.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.anonymous, value=False))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.anonymous.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.anonymous, value=True))
 
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.description, 'test description 1'))
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.description, 'test description 2: Füße'))
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.description, 'test description 1'))
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.description, 'test description 2: Füße'))
 
-        # self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.logging, '0'))
-        # self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.logging, '1'))
-
-        self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.max_users.name, value='10'))
-        self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.max_users.name, value='100'))
+        # self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.logging, False))
+        # self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.logging, True))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.members_by_default.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.max_users, value=10))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.members_by_default.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.max_users, value=100))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.members_only.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.members_by_default, value=False))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.members_only.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.members_by_default, value=True))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.moderated.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.members_only, value=False))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.moderated.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.members_only, value=True))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.password.name, value='abcdefg'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.moderated, value=True))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.password.name, value='51@#211323$%^&*()Füße'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.moderated, value=False))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.password_protected.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.password, value='abcdefg'))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.password_protected.name, value='0'))
-
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.persistent, '0'))
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.persistent, '1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.password, value='51@#211323$%^&*()Füße'))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.public.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.password_protected, value=True))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.public.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.password_protected, value=False))
+
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.persistent, False))
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.persistent, True))
 
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.public_list.name, value='0'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.public, value=False))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=muc.MUCRoomOption.public_list.name, value='1'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.public, value=True))
 
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.subject, 'test subject 1'))
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.subject, 'test subject 2: Füße'))
+        self.assertTrue(self.api.change_room_option(
+            room, service=MUC_SERVICE, option=MUCRoomOption.public_list, value=False))
+        self.assertTrue(self.api.change_room_option(
+            room, service=MUC_SERVICE, option=MUCRoomOption.public_list, value=True))
 
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.subject_author, 'test author 1'))
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.subject_author, 'test author 2: Füße'))
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.subject, 'test subject 1'))
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.subject, 'test subject 2: Füße'))
 
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.title, 'test title 1'))
-        #self.assertTrue(self.api.change_room_option(roomjid, muc.MUCRoomOption.title, 'test title 2: Füße'))
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.subject_author, 'test author 1'))
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.subject_author, 'test author 2: Füße'))
+
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.title, 'test title 1'))
+        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.title, 'test title 2: Füße'))
 
         self._remove_room(room, service=MUC_SERVICE, host=XMPP_DOMAIN)
-
-
-
 
     def _is_registered(self, username, host, registered_users=None):
         registered_users = registered_users or self.api.registered_users(host=host)
