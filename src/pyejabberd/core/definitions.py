@@ -17,7 +17,7 @@ class Enum(BaseEnum):
         return cls(value)
 
 
-class APIArgumentSerializer(with_metaclass(ABCMeta, object)):
+class APIArgumentSerializer(with_metaclass(ABCMeta, object)):  # pragma: no cover
     @abstractmethod
     def to_api(self, python_value):
         pass
@@ -34,13 +34,13 @@ class APIArgument(with_metaclass(ABCMeta, object)):
         self.required = required
 
     @abstractproperty
-    def serializer_class(self):
+    def serializer_class(self):  # pragma: no cover
         pass
 
 
 class API(with_metaclass(ABCMeta, object)):
     @abstractproperty
-    def method(self):
+    def method(self):  # pragma: no cover
         """
         Returns the exact name of the XMLRPC API method to call
         :rtype: str
@@ -48,7 +48,7 @@ class API(with_metaclass(ABCMeta, object)):
         """
 
     @abstractproperty
-    def arguments(self):
+    def arguments(self):  # pragma: no cover
         """
         Returns an (ordered) list of APIArgument objects.
         :rtype: Iterable

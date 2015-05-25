@@ -5,7 +5,7 @@ import hashlib
 from six import b
 
 
-def _format_digest(hexdigest):
+def _format_digest(hexdigest):  # pragma: no cover
     parts = []
     for i in xrange(len(hexdigest) / 2):
         part = hexdigest[i * 2:(i * 2) + 2]
@@ -17,7 +17,7 @@ def _format_digest(hexdigest):
     return (''.join(parts)).upper()
 
 
-def _format_password_hash(password, hash_method):
+def _format_password_hash(password, hash_method):  # pragma: no cover
     hash_method.update(b(password))
     return _format_digest(hash_method.hexdigest())
 
