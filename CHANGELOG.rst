@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.2.1 (2015-05-25)
+------------------
+
+* Refactored method validator/serializer system
+
+
 0.2.0 (2015-05-20)
 ------------------
 
