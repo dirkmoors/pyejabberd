@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-import six
 
+from ..core.serializers import BooleanSerializer, StringSerializer, PositiveIntegerSerializer
+from .serializers import AllowVisitorPrivateMessageSerializer
 from .enums import MUCRoomOption
-from .serializers import BooleanSerializer, StringSerializer, PositiveIntegerSerializer, \
-    AllowVisitorPrivateMessageSerializer
 
 
 MUCRoomOptions = {
@@ -34,26 +33,3 @@ MUCRoomOptions = {
     MUCRoomOption.vcard.name:                                StringSerializer,
     MUCRoomOption.voice_request_min_interval.name:           PositiveIntegerSerializer
 }
-
-
-def get_serializer(option):
-    serializer_class = None
-    if isinstance(option, six.string_types):
-        serializer_class = MUCRoomOptions.get(option)
-    elif isinstance(option, MUCRoomOption):
-        serializer_class = MUCRoomOptions.get(option.name)
-
-    if serializer_class is None:
-        raise ValueError('Unknown option')
-
-    return serializer_class()
-
-
-def to_python(option, value):
-    serializer = get_serializer(option)
-    return serializer.to_python(value)
-
-
-def to_api(option, value):
-    serializer = get_serializer(option)
-    return serializer.to_api(value)
