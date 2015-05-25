@@ -66,7 +66,7 @@ class EnumSerializer(with_metaclass(ABCMeta, StringSerializer)):
             return python_value
         elif isinstance(python_value, int):
             return self.enum_class.get_by_value(python_value).name
-        raise ValueError('Invalid value for MUCRoomOptionSerializer: %s' % python_value)
+        raise ValueError('Invalid value for enum %s: %s' % (self.enum_class, python_value))
 
     def to_python(self, api_value):
         assert issubclass(self.enum_class, Enum)
