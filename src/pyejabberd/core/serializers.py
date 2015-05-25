@@ -30,7 +30,7 @@ class IntegerSerializer(APIArgumentSerializer):
 
 class PositiveIntegerSerializer(IntegerSerializer):
     def to_api(self, python_value):
-        if not isinstance(python_value, (int, long)) or python_value < 0 :
+        if not isinstance(python_value, (int, long)) or python_value < 0:
             raise ValueError('Invalid value. Expects positive int or long.')
         return super(PositiveIntegerSerializer, self).to_api(python_value)
 
@@ -55,7 +55,7 @@ class BooleanSerializer(APIArgumentSerializer):
 
 class EnumSerializer(with_metaclass(ABCMeta, StringSerializer)):
     @abstractproperty
-    def enum_class(self):
+    def enum_class(self):  # pragma: no cover
         pass
 
     def to_api(self, python_value):
