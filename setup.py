@@ -22,9 +22,12 @@ try:
     import pyejabberd
     version = pyejabberd.__version__
 except ImportError:
-    version = '0.0.0'
+    version = None
 
 if sys.argv[-1] == 'publish':
+    if version is None:
+        raise
+
     os.system('python setup.py sdist upload')
     print("You probably want to also tag the version now:")
     print("  git tag -a %s -m 'version %s'" % (version, version))
