@@ -10,8 +10,6 @@ from pyejabberd.core.arguments import StringArgument, BooleanArgument, IntegerAr
 from pyejabberd.muc.arguments import MUCRoomArgument
 from pyejabberd.utils import format_password_hash_md5, format_password_hash_sha
 
-
-
 HOST = os.environ.get('PYEJABBERD_TESTS_HOST', 'localhost')
 PORT = int(os.environ.get('PYEJABBERD_TESTS_PORT', 4560))
 USERNAME = os.environ.get('PYEJABBERD_TESTS_USERNAME', 'admin')
@@ -31,7 +29,7 @@ class EjabberdAPITests(unittest.TestCase):
         self.assertIsNotNone(self.api)
 
     def test_echo(self):
-        sentence = 'TESTJE'
+        sentence = '51@#211323$%^&*()üFße'
         result = self.api.echo(sentence)
         self.assertIsNotNone(result)
         self.assertEqual(result, sentence)
@@ -184,7 +182,7 @@ class EjabberdAPITests(unittest.TestCase):
         self.assertTrue(self.api.change_room_option(
             room, service=MUC_SERVICE, option=MUCRoomOption.password, value='abcdefg'))
         self.assertTrue(self.api.change_room_option(
-            room, service=MUC_SERVICE, option=MUCRoomOption.password, value='51@#211323$%^&*()Füße'))
+            room, service=MUC_SERVICE, option=MUCRoomOption.password, value='51@#211323$%^&*()üFße'))
 
         self.assertTrue(self.api.change_room_option(
             room, service=MUC_SERVICE, option=MUCRoomOption.password_protected, value=True))

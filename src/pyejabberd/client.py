@@ -17,15 +17,15 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Constructor
         :param host:
-        :type host: str
+        :type host: str|unicode
         :param port:
         :type port: int
         :param username:
-        :type username: str
+        :type username: str|unicode
         :param password:
-        :type password: str
+        :type password: str|unicode
         :param user_domain:
-        :type user_domain: str
+        :type user_domain: str|unicode
         """
         self.host = host
         self.port = port
@@ -72,8 +72,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Echo's the input back
         :param sentence:
-        :type sentence: str
-        :rtype: str
+        :type sentence: str|unicode
+        :rtype: str|unicode
         :return: The echoed response, which should be the same as the input
         """
         return self._call_api(definitions.Echo, sentence=sentence)
@@ -82,7 +82,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         List all registered users in the xmpp_host
         :param host: The XMPP_DOMAIN
-        :type host: str
+        :type host: str|unicode
         :rtype: Iterable
         :return: A list of registered users in the xmpp_host
         """
@@ -92,11 +92,11 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Registers a user to the ejabberd server
         :param user: The username for the new user
-        :type user: str
+        :type user: str|unicode
         :param host: The XMPP_DOMAIN
-        :type host: str
+        :type host: str|unicode
         :param password: The password for the new user
-        :type password: str
+        :type password: str|unicode
         :rtype: bool
         :return: A boolean indicating if the registration has succeeded
         """
@@ -106,9 +106,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         UnRegisters a user from the ejabberd server
         :param user: The username for the new user
-        :type user: str
+        :type user: str|unicode
         :param host: The XMPP_DOMAIN
-        :type host: str
+        :type host: str|unicode
         :rtype: bool
         :return: A boolean indicating if the unregistration has succeeded
         """
@@ -118,11 +118,11 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Change the password for a given user
         :param user: The username for the user we want to change the password for
-        :type user: str
+        :type user: str|unicode
         :param host: The XMPP_DOMAIN
-        :type host: str
+        :type host: str|unicode
         :param newpass: The new password
-        :type newpass: str
+        :type newpass: str|unicode
         :rtype: bool
         :return: A boolean indicating if the password change has succeeded
         """
@@ -132,11 +132,11 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Checks whether a password is correct for a given user. The used hash-method is fixed to sha1.
         :param user: The username for the user we want to check the password for
-        :type user: str
+        :type user: str|unicode
         :param host: The XMPP_DOMAIN
-        :type host: str
+        :type host: str|unicode
         :param password: The password we want to check for the user
-        :type password: str
+        :type password: str|unicode
         :rtype: bool
         :return: A boolean indicating if the given password matches the user's password
         """
@@ -146,11 +146,11 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Set nickname in a user's vCard
         :param user: The username for the user we want to set the nickname to
-        :type user: str
+        :type user: str|unicode
         :param host: The XMPP_DOMAIN
-        :type host: str
+        :type host: str|unicode
         :param nickname: The nickname to assign to the user
-        :type nickname: str
+        :type nickname: str|unicode
         :rtype: bool
         :return: A boolean indicating nickname was assigned successfully
         """
@@ -160,7 +160,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         List existing rooms ('global' to get all vhosts)
         :param host: The XMPP_DOMAIN
-        :type host: str
+        :type host: str|unicode
         :rtype: Iterable
         :return: A list of online rooms in the format 'name@service'
         """
@@ -171,11 +171,11 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Create a MUC room name@service in host
         :param name: The name for the room
-        :type name: str
+        :type name: str|unicode
         :param service: The MUC service name (e.g. "conference")
-        :type service: str
+        :type service: str|unicode
         :param host: The XMPP_DOMAIN
-        :type host: str
+        :type host: str|unicode
         :rtype: bool
         :return: A boolean indicating whether the room has been created successfully
         """
@@ -185,11 +185,11 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Destroy a MUC room
         :param name: The name for the room
-        :type name: str
+        :type name: str|unicode
         :param service: The MUC service name (e.g. "conference")
-        :type service: str
+        :type service: str|unicode
         :param host: The XMPP_DOMAIN
-        :type host: str
+        :type host: str|unicode
         :rtype: bool
         :return: A boolean indicating whether the room has been destroyed successfully
         """
@@ -199,9 +199,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Get options from a MUC room
         :param name: The name for the room
-        :type name: str
+        :type name: str|unicode
         :param service: The MUC service name (e.g. "conference")
-        :type service: str
+        :type service: str|unicode
         :rtype: dict
         :return: A dict containing the room options
         """
@@ -211,13 +211,13 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         Change an option in a MUC room
         :param name: The name for the room
-        :type name: str
+        :type name: str|unicode
         :param service: The MUC service name (e.g. "conference")
-        :type service: str
+        :type service: str|unicode
         :param option: The option to change
-        :type option: str
+        :type option: str|unicode
         :param value: The new value
-        :type value: str|int|bool
+        :type value: str|unicode|int|bool
         :rtype: bool
         :return: A boolean indicating whether the room option has been changed successfully
         """
