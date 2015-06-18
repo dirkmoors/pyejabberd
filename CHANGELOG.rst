@@ -2,6 +2,13 @@
 Changelog
 =========
 
+0.2.3 (2015-06-18)
+------------------
+
+* Improved test suite
+* Made some enums more explicit
+* Aligned MUC room options with currently supported options in Ejabberd, build from master branch
+
 0.2.2 (2015-05-25)
 ------------------
 
