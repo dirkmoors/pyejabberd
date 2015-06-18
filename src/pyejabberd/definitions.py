@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from .core.arguments import StringArgument
 from .core.definitions import API
 from .core.serializers import StringSerializer
-from .muc import MUCRoomOptions
+from .muc import muc_room_options_serializers
 from .muc.arguments import MUCRoomArgument
 from .muc.enums import MUCRoomOption
 
@@ -128,7 +128,7 @@ class ChangeRoomOption(API):
     def transform_arguments(self, **kwargs):
         option = kwargs.get('option')
         assert isinstance(option, MUCRoomOption)
-        serializer_class = MUCRoomOptions.get(option.name, StringSerializer)
+        serializer_class = muc_room_options_serializers.get(option, StringSerializer)
         kwargs['value'] = serializer_class().to_api(kwargs['value'])
         return kwargs
 

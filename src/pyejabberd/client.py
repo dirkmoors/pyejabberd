@@ -8,7 +8,6 @@ from .core.definitions import API, APIArgument
 from .core.errors import IllegalArgumentError
 
 
-# noinspection PyTypeChecker
 class EjabberdAPIClient(contract.EjabberdAPIContract):
     """
     Python Client for the Ejabberd XML-RPC API
@@ -259,7 +258,11 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
                 argument_descriptor.serializer_class().to_api(arguments.get(argument_name))
 
         # Retrieve method
-        method = getattr(self.proxy, api.method)
+        method = getattr(self.proxy, str(api.method))
+
+        # Print method call with arguments
+        if self.verbose:
+            print '===> %s(%s)' % (api.method, ', '.join(['%s=%s' % (key, value) for (key, value) in arguments.items()]))
 
         # Perform call
         if not api.authenticate:
