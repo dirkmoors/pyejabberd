@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 import xmlrpclib
 import copy
 
@@ -222,6 +222,44 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.ChangeRoomOption, name=name, service=service, option=option, value=value)
 
+    def _validate_and_serialize_arguments(self, api, arguments):
+        """
+        Internal method to validate and serialize arguments
+        :param api: An instance of an API class
+        :param arguments: A dictionary of arguments that will be passed to the method
+        :type arguments: dict
+        :rtype: dict
+        :return: The serialized arguments
+        """
+        serialized_arguments = {}
+
+        for i in xrange(len(api.arguments)):
+            argument_descriptor = api.arguments[i]
+            assert isinstance(argument_descriptor, APIArgument)
+
+            # Validate argument presence
+            argument_name = str(argument_descriptor.name)
+            if argument_descriptor.required and argument_name not in arguments:
+                raise IllegalArgumentError('Missing required argument "%s"' % argument_name)
+
+            # Serializer argument value
+            serialized_arguments[argument_descriptor.name] = \
+                argument_descriptor.serializer_class().to_api(arguments.get(argument_name))
+
+        return serialized_arguments
+
+    def _report_method_call(self, method, arguments):
+        """
+        Internal method to print info about a method call
+        :param method: The name oft hem ethod to call
+        :type method: str|unicode
+        :param arguments: A dictionary of arguments that will be passed to the method
+        :type: arguments: dict
+        :return:
+        """
+        if self.verbose:
+            print('===> %s(%s)' % (method, ', '.join(['%s=%s' % (key, value) for (key, value) in arguments.items()])))
+
     def _call_api(self, api_class, **kwargs):
         """
         Internal method used to perform api calls
@@ -229,7 +267,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :type api_class: py:class:API
         :param kwargs:
         :type kwargs: dict
-        :return:
+        :rtype: object
+        :return: Returns return value of the XMLRPC Method call
         """
         # Validate api_class
         assert issubclass(api_class, API)
@@ -243,26 +282,14 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         # Transform arguments
         arguments = api.transform_arguments(**arguments)
 
-        # Validate arguments
-        for i in xrange(len(api.arguments)):
-            argument_descriptor = api.arguments[i]
-            assert isinstance(argument_descriptor, APIArgument)
-
-            # Validate argument presence
-            argument_name = str(argument_descriptor.name)
-            if argument_descriptor.required and argument_name not in arguments:
-                raise IllegalArgumentError('Missing required argument "%s"' % argument_name)
-
-            # Serializer argument value
-            arguments[argument_descriptor.name] = \
-                argument_descriptor.serializer_class().to_api(arguments.get(argument_name))
+        # Validate and serialize arguments
+        arguments = self._validate_and_serialize_arguments(api, arguments)
 
         # Retrieve method
         method = getattr(self.proxy, str(api.method))
 
         # Print method call with arguments
-        if self.verbose:
-            print '===> %s(%s)' % (api.method, ', '.join(['%s=%s' % (key, value) for (key, value) in arguments.items()]))
+        self._report_method_call(api.method, arguments)
 
         # Perform call
         if not api.authenticate:
