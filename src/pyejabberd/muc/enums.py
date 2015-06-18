@@ -3,39 +3,30 @@ from __future__ import unicode_literals
 from ..core.definitions import Enum
 
 
-MUCRoomOption = Enum(
-    'MUCRoomOption',
-    ' '.join([
-        'allow_change_subj',
-        'allow_private_messages',
-        'allow_private_messages_from_visitors',
-        'allow_query_users',
-        'allow_user_invites',
-        'allow_visitor_nickchange',
-        'allow_visitor_status',
-        'allow_voice_requests',
-        'anonymous',
-        'captcha_protected',
-        'captcha_whitelist',
-        'description',
-        'logging',
-        'max_users',
-        'members_by_default',
-        'members_only',
-        'moderated',
-        'password',
-        'password_protected',
-        'persistent',
-        'public',
-        'public_list',
-        'title',
-        'vcard',
-        'voice_request_min_interval',
-    ]),
-    module=__name__)
+class MUCRoomOption(Enum):
+    allow_change_subj = 1
+    allow_private_messages = 2
+    allow_private_messages_from_visitors = 3
+    allow_query_users = 4
+    allow_user_invites = 5
+    allow_visitor_nickchange = 6
+    allow_visitor_status = 7
+    anonymous = 8
+    captcha_protected = 9
+    logging = 10
+    max_users = 11
+    members_by_default = 12
+    members_only = 13
+    moderated = 14
+    password = 15
+    password_protected = 16
+    persistent = 17
+    public = 18
+    public_list = 19
+    title = 20
 
 
-AllowVisitorPrivateMessage = Enum(
-    'AllowVisitorPrivateMessage',
-    'anyone moderators nobody',
-    module=__name__)
+class AllowVisitorPrivateMessage(Enum):
+    anyone = 1
+    moderators = 2
+    nobody = 3
