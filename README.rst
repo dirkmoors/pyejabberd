@@ -1,9 +1,9 @@
-===============================
+==============================
 Python API Client for Ejabberd
-===============================
+==============================
 
 | |docs| |circleci| |coveralls| |landscape| |scrutinizer|
-| |version| |downloads| |wheel| |supported-versions| |supported-implementations|
+| |version| |downloads| |wheel| |pyversions| |implementation|
 
 .. |docs| image:: https://readthedocs.org/projects/pyejabberd/badge/?style=flat
     :target: https://pyejabberd.readthedocs.org/en/latest/
@@ -29,15 +29,15 @@ Python API Client for Ejabberd
     :alt: PyPI Package monthly downloads
     :target: https://pypi.python.org/pypi/pyejabberd
 
-.. |wheel| image:: https://pypip.in/wheel/pyejabberd/badge.png?style=flat
+.. |wheel| image:: https://img.shields.io/pypi/wheel/pyejabberd.svg?style=flat
     :alt: PyPI Wheel
     :target: https://pypi.python.org/pypi/pyejabberd
 
-.. |supported-versions| image:: https://pypip.in/py_versions/pyejabberd/badge.png?style=flat
+.. |pyversions| image:: https://img.shields.io/pypi/pyversions/pyejabberd.svg?style=flat
     :alt: Supported versions
     :target: https://pypi.python.org/pypi/pyejabberd
 
-.. |supported-implementations| image:: https://pypip.in/implementation/pyejabberd/badge.png?style=flat
+.. |implementation| image:: https://img.shields.io/pypi/implementation/pyejabberd.svg?style=flat
     :alt: Supported imlementations
     :target: https://pypi.python.org/pypi/pyejabberd
 
