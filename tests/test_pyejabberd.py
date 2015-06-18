@@ -38,67 +38,48 @@ class EjabberdAPITests(unittest.TestCase):
     def test_registered_users(self):
         result = self.api.registered_users(XMPP_DOMAIN)
         self.assertTrue(isinstance(result, (list, tuple)))
-        self.assertTrue(self._is_registered('admin', host=XMPP_DOMAIN, registered_users=result))
+
+        registered_users = self.api.registered_users(host=XMPP_DOMAIN)
+        registered_users = [struct.get('username') for struct in registered_users]
+        self.assertTrue('admin' in registered_users)
 
     def test_register_unregister_user(self):
-        username = 'test_user_123'
-
-        result = self.api.register(username, host=XMPP_DOMAIN, password='test')
-        self.assertTrue(result)
-        self.assertTrue(self._is_registered(username, host=XMPP_DOMAIN))
-
-        self._remove_user(username, host=XMPP_DOMAIN)
+        with create_test_user(self.api, 'testuser_1', host=XMPP_DOMAIN) as username:
+            registered_users = self.api.registered_users(host=XMPP_DOMAIN)
+            registered_users = [struct.get('username') for struct in registered_users]
+            self.assertTrue(username in registered_users)
 
     def test_username_already_exists(self):
-        username = 'test_user_123'
-
-        result = self.api.register(username, host=XMPP_DOMAIN, password='test')
-        self.assertTrue(result)
-        self.assertTrue(self._is_registered(username, host=XMPP_DOMAIN))
-
-        error_thrown = False
-        try:
-            self.api.register(username, password='test', host=XMPP_DOMAIN)
-        except UserAlreadyRegisteredError:
-            error_thrown = True
-        self.assertTrue(error_thrown)
-
-        self._remove_user(username, host=XMPP_DOMAIN)
+        with create_test_user(self.api, 'testuser_2', host=XMPP_DOMAIN) as username:
+            error_thrown = False
+            try:
+                with create_test_user(self.api, 'testuser_2', host=XMPP_DOMAIN) as username2:
+                    self.assertEqual(username2, username)
+            except UserAlreadyRegisteredError:
+                error_thrown = True
+            self.assertTrue(error_thrown)
 
     def test_change_check_password(self):
-        username = 'test_user_456'
+        with create_test_user(self.api, 'testuser_3', host=XMPP_DOMAIN, password='test') as username:
+            result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test')
+            self.assertTrue(result)
 
-        result = self.api.register(username, host=XMPP_DOMAIN, password='test')
-        self.assertTrue(result)
-        self.assertTrue(self._is_registered(username, host=XMPP_DOMAIN))
+            result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test2')
+            self.assertFalse(result)
 
-        result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test')
-        self.assertTrue(result)
+            result = self.api.change_password(username, host=XMPP_DOMAIN, newpass='test2')
+            self.assertTrue(result)
 
-        result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test2')
-        self.assertFalse(result)
+            result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test')
+            self.assertFalse(result)
 
-        result = self.api.change_password(username, host=XMPP_DOMAIN, newpass='test2')
-        self.assertTrue(result)
-
-        result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test')
-        self.assertFalse(result)
-
-        result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test2')
-        self.assertTrue(result)
-
-        self._remove_user(username, host=XMPP_DOMAIN)
+            result = self.api.check_password_hash(username, host=XMPP_DOMAIN, password='test2')
+            self.assertTrue(result)
 
     def test_set_nickname(self):
-        username = 'test_user_789'
-
-        result = self.api.register(username, host=XMPP_DOMAIN, password='test')
-        self.assertTrue(result)
-        self.assertTrue(self._is_registered(username, host=XMPP_DOMAIN))
-
-        result = self.api.set_nickname(username, host=XMPP_DOMAIN, nickname='blabla')
-        self.assertTrue(result)
-        self._remove_user(username, host=XMPP_DOMAIN)
+        with create_test_user(self.api, 'testuser_4', host=XMPP_DOMAIN) as username:
+            result = self.api.set_nickname(username, host=XMPP_DOMAIN, nickname='blabla')
+            self.assertTrue(result)
 
     def test_create_destroy_room(self):
         with create_test_room(self.api, 'testroom_1', service=MUC_SERVICE, host=XMPP_DOMAIN,
@@ -254,22 +235,6 @@ class EjabberdAPITests(unittest.TestCase):
                 room, service=MUC_SERVICE, option=MUCRoomOption.allow_private_messages_from_visitors,
                 value=AllowVisitorPrivateMessage.moderators))
 
-    def _is_registered(self, username, host, registered_users=None):
-        registered_users = registered_users or self.api.registered_users(host=host)
-        registered_users = [struct.get('username') for struct in registered_users]
-        return username in registered_users
-
-    def _remove_user(self, username, host):  # pragma: no cover
-        attempt = 0
-        while attempt < 10:
-            result = self.api.unregister(username, host=host)
-            if not result:
-                attempt += 1
-                continue
-            if not self._is_registered(username, host=host):
-                break
-            print('_remove_user: retrying for username: %s' % username)
-            attempt += 1
 
 class LibraryTests(unittest.TestCase):
     def test_string_argument(self):
@@ -430,6 +395,44 @@ class LibraryTests(unittest.TestCase):
         serializer = serializer_class()
 
         return serializer
+
+
+class create_test_user(object):
+    def __init__(self, api, username, host, password='test', test_existence=True):
+        self.api = api
+        self.username = username
+        self.host = host
+        self.password = password
+        self.test_existence = test_existence
+
+    def _is_registered(self, username, host, registered_users=None):
+        registered_users = registered_users or self.api.registered_users(host=host)
+        registered_users = [struct.get('username') for struct in registered_users]
+        return username in registered_users
+
+    def _remove_user(self, username, host):  # pragma: no cover
+        attempt = 0
+        while attempt < 10:
+            result = self.api.unregister(username, host=host)
+            if not result:
+                attempt += 1
+                continue
+            if not self._is_registered(username, host=host):
+                break
+            print('_remove_user: retrying for username: %s' % username)
+            attempt += 1
+
+    def __enter__(self):
+        self.api.register(self.username, host=self.host, password=self.password)
+
+        if self.test_existence:
+            if not self._is_registered(self.username, host=self.host):
+                raise AssertionError('newly created user is not found in registered users')
+
+        return self.username
+
+    def __exit__(self, type, value, traceback):
+        self._remove_user(self.username, host=self.host)
 
 
 class create_test_room(object):
