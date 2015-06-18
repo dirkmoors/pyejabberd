@@ -260,11 +260,9 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         # Retrieve method
         method = getattr(self.proxy, str(api.method))
 
-        try:
+        # Print method call with arguments
+        if self.verbose:
             print '===> %s(%s)' % (api.method, ', '.join(['%s=%s' % (key, value) for (key, value) in arguments.items()]))
-        except:
-            import traceback
-            traceback.print_exc()
 
         # Perform call
         if not api.authenticate:
