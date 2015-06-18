@@ -189,8 +189,10 @@ class EjabberdAPITests(unittest.TestCase):
         self.assertTrue(self.api.change_room_option(
             room, service=MUC_SERVICE, option=MUCRoomOption.password_protected, value=False))
 
-        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.persistent, False))
-        #self.assertTrue(self.api.change_room_option(roomjid, MUCRoomOption.persistent, True))
+        self.assertTrue(self.api.change_room_option(
+            room, service=MUC_SERVICE, option=MUCRoomOption.persistent, value=True))
+        self.assertTrue(self.api.change_room_option(
+            room, service=MUC_SERVICE, option=MUCRoomOption.persistent, value=False))
 
         self.assertTrue(self.api.change_room_option(
             room, service=MUC_SERVICE, option=MUCRoomOption.public, value=False))
