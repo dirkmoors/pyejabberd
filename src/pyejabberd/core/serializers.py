@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from builtins import int
+
 from abc import ABCMeta, abstractproperty
 from six import with_metaclass, string_types
 
@@ -20,7 +22,7 @@ class StringSerializer(APIArgumentSerializer):
 
 class IntegerSerializer(APIArgumentSerializer):
     def to_api(self, python_value):
-        if not isinstance(python_value, (int, long)):
+        if not isinstance(python_value, int):
             raise ValueError('Invalid value. Expects int or long.')
         return str(python_value)
 
@@ -30,7 +32,7 @@ class IntegerSerializer(APIArgumentSerializer):
 
 class PositiveIntegerSerializer(IntegerSerializer):
     def to_api(self, python_value):
-        if not isinstance(python_value, (int, long)) or python_value < 0:
+        if not isinstance(python_value, int) or python_value < 0:
             raise ValueError('Invalid value. Expects positive int or long.')
         return super(PositiveIntegerSerializer, self).to_api(python_value)
 

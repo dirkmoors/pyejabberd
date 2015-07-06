@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
-import xmlrpclib
 import copy
+
+from builtins import range
+
+from future.standard_library import install_aliases
+install_aliases()
+
+from xmlrpc import client as xmlrpc_client
 
 from . import contract, definitions
 from .core.definitions import API, APIArgument
@@ -51,7 +57,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :return the proxy object that is used to perform the calls to the XML-RPC endpoint
         """
         if self._proxy is None:
-            self._proxy = xmlrpclib.ServerProxy(self.service_url, verbose=(1 if self.verbose else 0))
+            self._proxy = xmlrpc_client.ServerProxy(self.service_url, verbose=(1 if self.verbose else 0))
         return self._proxy
 
     @property
@@ -233,7 +239,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         serialized_arguments = {}
 
-        for i in xrange(len(api.arguments)):
+        for i in range(len(api.arguments)):
             argument_descriptor = api.arguments[i]
             assert isinstance(argument_descriptor, APIArgument)
 
