@@ -3,7 +3,9 @@ from __future__ import unicode_literals, print_function
 import xmlrpclib
 import copy
 
-from . import contract, definitions
+from urlparse import urlparse
+
+from . import contract, definitions, defaults
 from .core.definitions import API, APIArgument
 from .core.errors import IllegalArgumentError
 
@@ -12,7 +14,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
     """
     Python Client for the Ejabberd XML-RPC API
     """
-    def __init__(self, host, port, username, password, user_domain, **kwargs):
+    def __init__(self, host, port, username, password, user_domain, protocol=None, verbose=False):
         """
         Constructor
         :param host:
@@ -25,15 +27,66 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :type password: str|unicode
         :param user_domain:
         :type user_domain: str|unicode
+        :param protocol: http or https
+        :type protocol: str|unicode
+        :param verbose:
+        :type verbose: bool
         """
         self.host = host
         self.port = port
         self.username = username
         self.password = password
         self.user_domain = user_domain
-        self.protocol = kwargs.get('protocol', 'https')
-        self.verbose = kwargs.get('verbose', False)
+        self.protocol = protocol or defaults.XMLRPC_API_PROTOCOL
+        self.verbose = verbose
         self._proxy = None
+
+    @staticmethod
+    def from_string(service_url, verbose=False):
+        """
+        Returns a EjabberdAPIClient instance based on a '12factor app' compliant service_url
+
+        :param service_url: A connection string in the format:
+            <http|https>://<username>:<password>@<host>(:port)/user_domain
+        :type service_url: str|unicode
+        :param verbose:
+        :type verbose: bool
+        :return: EjabberdAPIClient instance
+        """
+        fmt_error = \
+            'from_string expects service_url like https://USERNAME:PASSWORD@HOST:PORT/DOMAIN'
+
+        o = urlparse(service_url)
+
+        protocol = o.scheme
+        assert protocol in ('http', 'https'), fmt_error
+
+        netloc_parts = o.netloc.split('@')
+        assert len(netloc_parts) == 2, fmt_error
+
+        auth, server = netloc_parts
+
+        auth_parts = auth.split(':')
+        assert len(auth_parts) == 2, fmt_error
+
+        username, password = auth_parts
+
+        server_parts = server.split(':')
+        assert len(server_parts) <= 2, fmt_error
+
+        if len(server_parts) == 2:
+            host, port = server_parts
+            port = int(port)
+        else:
+            host, port = server_parts[0], defaults.XMLRPC_API_PORT
+
+        path_parts = o.path.lstrip('/').split('/')
+        assert len(path_parts) == 1, fmt_error
+
+        user_domain = path_parts[0]
+
+        return EjabberdAPIClient(host, port, username, password, user_domain, protocol=protocol,
+                                 verbose=verbose)
 
     @property
     def service_url(self):

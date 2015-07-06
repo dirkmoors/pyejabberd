@@ -4,6 +4,7 @@ import unittest
 import os
 
 from pyejabberd import EjabberdAPIClient
+from pyejabberd.defaults import XMLRPC_API_PORT
 from pyejabberd.muc import MUCRoomOption
 from pyejabberd.errors import UserAlreadyRegisteredError
 from pyejabberd.core.arguments import StringArgument, BooleanArgument, IntegerArgument, PositiveIntegerArgument
@@ -28,6 +29,82 @@ class EjabberdAPITests(unittest.TestCase):
             host=HOST, port=PORT, username=USERNAME, password=PASSWORD, user_domain=XMPP_DOMAIN, protocol=PROTOCOL,
             verbose=VERBOSE)
         self.assertIsNotNone(self.api)
+
+    def test_from_string_ok(self):
+        service_url = '%s://%s:%s@%s:%s/%s' % (PROTOCOL, USERNAME, PASSWORD, HOST, PORT,
+                                               XMPP_DOMAIN)
+
+        api = None
+        error_thrown = False
+        try:
+            api = EjabberdAPIClient.from_string(service_url)
+        except AssertionError:
+            error_thrown = True
+        self.assertFalse(error_thrown)
+        self.assertIsNotNone(api)
+
+    def test_from_string_incorrect_protocol(self):
+        service_url = 'test://%s:%s@%s:%s/%s' % (USERNAME, PASSWORD, HOST, PORT, XMPP_DOMAIN)
+
+        api = None
+        error_thrown = False
+        try:
+            api = EjabberdAPIClient.from_string(service_url)
+        except AssertionError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+        self.assertIsNone(api)
+
+    def test_from_string_incorrect_auth(self):
+        service_url = '%s://bla@%s:%s/%s' % (PROTOCOL, HOST, PORT, XMPP_DOMAIN)
+
+        api = None
+        error_thrown = False
+        try:
+            api = EjabberdAPIClient.from_string(service_url)
+        except AssertionError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+        self.assertIsNone(api)
+
+    def test_from_string_default_server_port(self):
+        service_url = '%s://%s:%s@%s/%s' % (PROTOCOL, USERNAME, PASSWORD, HOST, XMPP_DOMAIN)
+
+        api = None
+        error_thrown = False
+        try:
+            api = EjabberdAPIClient.from_string(service_url)
+        except AssertionError:
+            error_thrown = True
+        self.assertFalse(error_thrown)
+        self.assertIsNotNone(api)
+        self.assertEqual(api.port, XMLRPC_API_PORT)
+
+    def test_from_string_incorrect_server(self):
+        service_url = '%s://%s:%s@%s:%s:bla/%s' % (PROTOCOL, USERNAME, PASSWORD, HOST, PORT,
+                                                   XMPP_DOMAIN)
+
+        api = None
+        error_thrown = False
+        try:
+            api = EjabberdAPIClient.from_string(service_url)
+        except AssertionError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+        self.assertIsNone(api)
+
+    def test_from_string_incorrect_domain(self):
+        service_url = '%s://%s:%s@%s:%s/%s/bla' % (PROTOCOL, USERNAME, PASSWORD, HOST, PORT,
+                                                   XMPP_DOMAIN)
+
+        api = None
+        error_thrown = False
+        try:
+            api = EjabberdAPIClient.from_string(service_url)
+        except AssertionError:
+            error_thrown = True
+        self.assertTrue(error_thrown)
+        self.assertIsNone(api)
 
     def test_echo(self):
         sentence = '51@#211323$%^&*()üFße'

@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.2.4 (2015-07-06)
+------------------
+
+* Made constructor more strict (no more kwargs)
+* Added optional function to create a client instance from a service url, compliant with the '12factor app' idea
+
 0.2.3 (2015-06-18)
 ------------------
 
