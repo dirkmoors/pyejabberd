@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.2.5 (2015-07-07)
+------------------
+
+* Python 2/3 compatibility
+* Fixed failing build
+
 0.2.4 (2015-07-06)
 ------------------
 
