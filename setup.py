@@ -78,6 +78,7 @@ setup(
     ],
     keywords=[
         'ejabberd', 'xmlrpc', 'api', 'client', 'xmpp', 'chat', 'muc'
+
     ],
     install_requires=requirements,
     extras_require={
