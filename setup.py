@@ -44,7 +44,7 @@ def read(*names, **kwargs):
     ).read()
 
 # parse_requirements() returns generator of pip.req.InstallRequirement objects
-install_reqs = parse_requirements('./requirements.txt')
+install_reqs = parse_requirements('./requirements.txt', session=False)
 requirements = [str(ir.req) for ir in install_reqs]
 
 setup(
