@@ -10,6 +10,7 @@ include .isort.cfg
 include .pylintrc
 
 include ejabberd.sh
+include requirements.txt
 include requirements-ci.txt
 include circle.yml
 
