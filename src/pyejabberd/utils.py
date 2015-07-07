@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+from builtins import range, int
+
 import hashlib
 
 from six import b
@@ -7,7 +9,8 @@ from six import b
 
 def _format_digest(hexdigest):  # pragma: no cover
     parts = []
-    for i in xrange(len(hexdigest) / 2):
+    hexdigest_size = int(len(hexdigest) / 2)
+    for i in range(hexdigest_size):
         part = hexdigest[i * 2:(i * 2) + 2]
         if part == '00':
             part = ''

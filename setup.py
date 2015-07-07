@@ -10,6 +10,8 @@ from os.path import dirname
 from os.path import join
 from os.path import splitext
 
+from pip.req import parse_requirements
+
 from setuptools import find_packages
 
 try:
@@ -41,6 +43,10 @@ def read(*names, **kwargs):
         encoding=kwargs.get("encoding", "utf8")
     ).read()
 
+# parse_requirements() returns generator of pip.req.InstallRequirement objects
+install_reqs = parse_requirements('./requirements.txt', session=False)
+requirements = [str(ir.req) for ir in install_reqs]
+
 setup(
     name="pyejabberd",
     version=version,
@@ -71,19 +77,10 @@ setup(
         "Topic :: Utilities",
     ],
     keywords=[
-        # eg: "keyword1", "keyword2", "keyword3",
+        'ejabberd', 'xmlrpc', 'api', 'client', 'xmpp', 'chat', 'muc'
+
     ],
-    install_requires=[
-        # eg: "aspectlib==1.1.1", "six>=1.7",
-        'six>=1.9.0',
-        'enum34>=1.0.4',
-    ],
+    install_requires=requirements,
     extras_require={
-        # eg: 'rst': ["docutils>=0.11"],
-    },
-    entry_points={
-        "console_scripts": [
-            "pyejabberd = pyejabberd.__main__:main"
-        ]
     }
 )
