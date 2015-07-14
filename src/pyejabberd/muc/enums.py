@@ -30,3 +30,11 @@ class AllowVisitorPrivateMessage(Enum):
     anyone = 1
     moderators = 2
     nobody = 3
+
+
+class Affiliation(Enum):
+    outcast = 1
+    none = 2
+    member = 3
+    admin = 4
+    owner = 5
