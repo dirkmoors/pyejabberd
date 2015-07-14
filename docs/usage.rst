@@ -2,5 +2,5 @@
 Usage
 =====
 
-.. literalinclude:: /docs/example.py
+.. literalinclude:: example.py
     :linenos:
