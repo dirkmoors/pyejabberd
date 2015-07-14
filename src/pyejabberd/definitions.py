@@ -5,7 +5,7 @@ from .core.arguments import StringArgument
 from .core.definitions import API
 from .core.serializers import StringSerializer
 from .muc import muc_room_options_serializers
-from .muc.arguments import MUCRoomArgument
+from .muc.arguments import MUCRoomArgument, AffiliationArgument
 from .muc.enums import MUCRoomOption
 
 from .errors import UserAlreadyRegisteredError
@@ -131,6 +131,15 @@ class ChangeRoomOption(API):
         serializer_class = muc_room_options_serializers.get(option, StringSerializer)
         kwargs['value'] = serializer_class().to_api(kwargs['value'])
         return kwargs
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0
+
+
+class SetRoomAffiliation(API):
+    method = 'set_room_affiliation'
+    arguments = [StringArgument('name'), StringArgument('service'), StringArgument('jid'),
+                 AffiliationArgument('affiliation')]
 
     def transform_response(self, api, arguments, response):
         return response.get('res') == 0

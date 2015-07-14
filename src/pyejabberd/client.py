@@ -280,6 +280,22 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.ChangeRoomOption, name=name, service=service, option=option, value=value)
 
+    def set_room_affiliation(self, name, service, jid, affiliation):
+        """
+        Change an affiliation in a MUC room
+        :param name:The name for the room
+        :type name: str|unicode
+        :param service: The MUC service name (e.g. "conference")
+        :type service: str|unicode
+        :param jid: The jabber id for the user you want to change the affiliation for
+        :type jid: str|unicode
+        :param affiliation: The affiliation to the room
+        :type affiliation: muc.enums.Affiliation
+        :return:
+        """
+        return self._call_api(definitions.SetRoomAffiliation, name=name, service=service, jid=jid,
+                              affiliation=affiliation)
+
     def _validate_and_serialize_arguments(self, api, arguments):
         """
         Internal method to validate and serialize arguments

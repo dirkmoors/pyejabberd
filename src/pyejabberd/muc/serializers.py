@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from ..core.serializers import EnumSerializer
-from .enums import MUCRoomOption, AllowVisitorPrivateMessage
+from .enums import MUCRoomOption, AllowVisitorPrivateMessage, Affiliation
 
 
 class MUCRoomOptionSerializer(EnumSerializer):
@@ -11,3 +11,7 @@ class MUCRoomOptionSerializer(EnumSerializer):
 
 class AllowVisitorPrivateMessageSerializer(EnumSerializer):
     enum_class = AllowVisitorPrivateMessage
+
+
+class AffiliationSerializer(EnumSerializer):
+    enum_class = Affiliation

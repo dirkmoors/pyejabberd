@@ -9,7 +9,7 @@ from pyejabberd.muc import MUCRoomOption
 from pyejabberd.errors import UserAlreadyRegisteredError
 from pyejabberd.core.arguments import StringArgument, BooleanArgument, IntegerArgument, PositiveIntegerArgument
 from pyejabberd.muc.arguments import MUCRoomArgument
-from pyejabberd.muc.enums import AllowVisitorPrivateMessage
+from pyejabberd.muc.enums import AllowVisitorPrivateMessage, Affiliation
 from pyejabberd.utils import format_password_hash_md5, format_password_hash_sha
 
 HOST = os.environ.get('PYEJABBERD_TESTS_HOST', 'localhost')
@@ -311,6 +311,41 @@ class EjabberdAPITests(unittest.TestCase):
             self.assertTrue(self.api.change_room_option(
                 room, service=MUC_SERVICE, option=MUCRoomOption.allow_private_messages_from_visitors,
                 value=AllowVisitorPrivateMessage.moderators))
+
+    def test_set_affiliation_outcast(self):
+        with create_test_user(self.api, 'testuser_5', host=XMPP_DOMAIN) as username:
+            with create_test_room(self.api, 'testroom_23', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
+                jid = '%s@%s' % (username, XMPP_DOMAIN)
+                self.assertTrue(self.api.set_room_affiliation(room, service=MUC_SERVICE, jid=jid,
+                                                              affiliation=Affiliation.outcast))
+
+    def test_set_affiliation_none(self):
+        with create_test_user(self.api, 'testuser_6', host=XMPP_DOMAIN) as username:
+            with create_test_room(self.api, 'testroom_24', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
+                jid = '%s@%s' % (username, XMPP_DOMAIN)
+                self.assertTrue(self.api.set_room_affiliation(room, service=MUC_SERVICE, jid=jid,
+                                                              affiliation=Affiliation.none))
+
+    def test_set_affiliation_member(self):
+        with create_test_user(self.api, 'testuser_7', host=XMPP_DOMAIN) as username:
+            with create_test_room(self.api, 'testroom_25', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
+                jid = '%s@%s' % (username, XMPP_DOMAIN)
+                self.assertTrue(self.api.set_room_affiliation(room, service=MUC_SERVICE, jid=jid,
+                                                              affiliation=Affiliation.member))
+
+    def test_set_affiliation_admin(self):
+        with create_test_user(self.api, 'testuser_8', host=XMPP_DOMAIN) as username:
+            with create_test_room(self.api, 'testroom_26', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
+                jid = '%s@%s' % (username, XMPP_DOMAIN)
+                self.assertTrue(self.api.set_room_affiliation(room, service=MUC_SERVICE, jid=jid,
+                                                              affiliation=Affiliation.admin))
+
+    def test_set_affiliation_owner(self):
+        with create_test_user(self.api, 'testuser_9', host=XMPP_DOMAIN) as username:
+            with create_test_room(self.api, 'testroom_28', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
+                jid = '%s@%s' % (username, XMPP_DOMAIN)
+                self.assertTrue(self.api.set_room_affiliation(room, service=MUC_SERVICE, jid=jid,
+                                                              affiliation=Affiliation.owner))
 
 
 class LibraryTests(unittest.TestCase):
