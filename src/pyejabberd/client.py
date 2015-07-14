@@ -282,7 +282,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
 
     def set_room_affiliation(self, name, service, jid, affiliation):
         """
-        Change an affiliation in a MUC room
+        Change an affiliation for a user in a MUC room
         :param name:The name for the room
         :type name: str|unicode
         :param service: The MUC service name (e.g. "conference")
@@ -291,7 +291,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :type jid: str|unicode
         :param affiliation: The affiliation to the room
         :type affiliation: muc.enums.Affiliation
-        :return:
+        :rtype: list
+        :return: A list containing dictionaries containing affiliation info
         """
         return self._call_api(definitions.SetRoomAffiliation, name=name, service=service, jid=jid,
                               affiliation=affiliation)
