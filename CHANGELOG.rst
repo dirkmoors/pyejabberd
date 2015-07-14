@@ -2,6 +2,12 @@
 Changelog
 =========
 
+0.2.6 (2015-07-14)
+------------------
+
+* Added API: set_room_affiliation
+* Added API: get_room_affiliations
+
 0.2.5 (2015-07-07)
 ------------------
 
