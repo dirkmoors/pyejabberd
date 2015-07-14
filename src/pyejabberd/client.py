@@ -47,7 +47,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         self._proxy = None
 
     @staticmethod
-    def from_string(service_url, verbose=False):
+    def get_instance(service_url, verbose=False):
         """
         Returns a EjabberdAPIClient instance based on a '12factor app' compliant service_url
 
