@@ -296,6 +296,17 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         return self._call_api(definitions.SetRoomAffiliation, name=name, service=service, jid=jid,
                               affiliation=affiliation)
 
+    def get_room_affiliations(self, name, service):
+        """
+        Get the affiliations for a MUC room
+        :param name:The name for the room
+        :type name: str|unicode
+        :param service: The MUC service name (e.g. "conference")
+        :type service: str|unicode
+        :return:
+        """
+        return self._call_api(definitions.GetRoomAffiliations, name=name, service=service)
+
     def _validate_and_serialize_arguments(self, api, arguments):
         """
         Internal method to validate and serialize arguments

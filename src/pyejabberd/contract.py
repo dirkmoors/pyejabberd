@@ -56,3 +56,7 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):  # pragma: no cover
     @abstractmethod
     def set_room_affiliation(self, name, service, jid, affiliation):
         pass
+
+    @abstractmethod
+    def get_room_affiliations(self, name, service):
+        pass

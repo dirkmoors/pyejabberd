@@ -9,6 +9,7 @@ from .muc.arguments import MUCRoomArgument, AffiliationArgument
 from .muc.enums import MUCRoomOption
 
 from .errors import UserAlreadyRegisteredError
+from pyejabberd.muc.enums import Affiliation
 from .utils import format_password_hash_sha
 
 
@@ -143,3 +144,17 @@ class SetRoomAffiliation(API):
 
     def transform_response(self, api, arguments, response):
         return response.get('res') == 0
+
+
+class GetRoomAffiliations(API):
+    method = 'get_room_affiliations'
+    arguments = [StringArgument('name'), StringArgument('service')]
+
+    def transform_response(self, api, arguments, response):
+        affiliations = response.get('affiliations', [])
+        return [{
+            'username': subdict['affiliation'][0]['username'],
+            'domain': subdict['affiliation'][1]['domain'],
+            'affiliation': Affiliation.get_by_name(subdict['affiliation'][2]['affiliation']),
+            'reason': subdict['affiliation'][3]['reason'],
+        } for subdict in affiliations]
