@@ -2,4 +2,4 @@
 Usage
 =====
 
-.. literalinclude:: example.py
+.. literalinclude:: ./example.py

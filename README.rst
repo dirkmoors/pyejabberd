@@ -61,7 +61,8 @@ Documentation
 
 Usage
 =====
-.. literalinclude:: example.py
+.. literalinclude:: ./example.py
+    :linenos:
 
 Development
 ===========
