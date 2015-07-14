@@ -272,7 +272,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :param service: The MUC service name (e.g. "conference")
         :type service: str|unicode
         :param option: The option to change
-        :type option: str|unicode
+        :type option: muc.enums.MUCRoomOption
         :param value: The new value
         :type value: str|unicode|int|bool
         :rtype: bool
