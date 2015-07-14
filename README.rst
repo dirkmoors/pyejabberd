@@ -59,6 +59,10 @@ Documentation
 
     https://pyejabberd.readthedocs.org/
 
+Usage
+=====
+.. literalinclude:: example.py
+
 Development
 ===========
 

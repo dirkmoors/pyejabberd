@@ -1,1 +1,5 @@
+=====
+Usage
+=====
+
 .. literalinclude:: example.py
