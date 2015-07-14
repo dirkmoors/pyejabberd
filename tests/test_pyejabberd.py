@@ -37,7 +37,7 @@ class EjabberdAPITests(unittest.TestCase):
         api = None
         error_thrown = False
         try:
-            api = EjabberdAPIClient.from_string(service_url)
+            api = EjabberdAPIClient.get_instance(service_url)
         except AssertionError:
             error_thrown = True
         self.assertFalse(error_thrown)
@@ -49,7 +49,7 @@ class EjabberdAPITests(unittest.TestCase):
         api = None
         error_thrown = False
         try:
-            api = EjabberdAPIClient.from_string(service_url)
+            api = EjabberdAPIClient.get_instance(service_url)
         except AssertionError:
             error_thrown = True
         self.assertTrue(error_thrown)
@@ -61,7 +61,7 @@ class EjabberdAPITests(unittest.TestCase):
         api = None
         error_thrown = False
         try:
-            api = EjabberdAPIClient.from_string(service_url)
+            api = EjabberdAPIClient.get_instance(service_url)
         except AssertionError:
             error_thrown = True
         self.assertTrue(error_thrown)
@@ -73,7 +73,7 @@ class EjabberdAPITests(unittest.TestCase):
         api = None
         error_thrown = False
         try:
-            api = EjabberdAPIClient.from_string(service_url)
+            api = EjabberdAPIClient.get_instance(service_url)
         except AssertionError:
             error_thrown = True
         self.assertFalse(error_thrown)
@@ -87,7 +87,7 @@ class EjabberdAPITests(unittest.TestCase):
         api = None
         error_thrown = False
         try:
-            api = EjabberdAPIClient.from_string(service_url)
+            api = EjabberdAPIClient.get_instance(service_url)
         except AssertionError:
             error_thrown = True
         self.assertTrue(error_thrown)
@@ -100,7 +100,7 @@ class EjabberdAPITests(unittest.TestCase):
         api = None
         error_thrown = False
         try:
-            api = EjabberdAPIClient.from_string(service_url)
+            api = EjabberdAPIClient.get_instance(service_url)
         except AssertionError:
             error_thrown = True
         self.assertTrue(error_thrown)
