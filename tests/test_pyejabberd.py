@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals, print_function
-import unittest
 import os
+import sys
+
+if sys.version_info > (2, 6):
+    from unittest import TestCase, skipIf, main as run_unittests
+else:  # pragma: no cover
+    from unittest2 import TestCase, skipIf, main as run_unittests
 
 from pyejabberd import EjabberdAPIClient
 from pyejabberd.defaults import XMLRPC_API_PORT
@@ -22,7 +27,7 @@ PROTOCOL = os.environ.get('PYEJABBERD_TESTS_PROTOCOL', 'http')
 VERBOSE = int(os.environ.get('PYEJABBERD_TESTS_VERBOSE', 0)) == 1
 
 
-class EjabberdAPITests(unittest.TestCase):
+class EjabberdAPITests(TestCase):
     def setUp(self):
         verbose = True
         self.api = EjabberdAPIClient(
@@ -393,7 +398,7 @@ class EjabberdAPITests(unittest.TestCase):
                                 self.assertEqual(len(output_affiliations), 0)
 
 
-class LibraryTests(unittest.TestCase):
+class LibraryTests(TestCase):
     def test_string_argument(self):
         serializer = self._test_argument_and_get_serializer(StringArgument)
 
@@ -631,4 +636,4 @@ class create_test_room(object):
 
 
 if __name__ == '__main__':  # pragma: no cover
-    unittest.main()
+    run_unittests()
