@@ -25,6 +25,9 @@ dependencies:
         - docker pull rroemhild/ejabberd:15.06
         - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.06 > ~/docker/ejabberd-15.06.tar
 test:
+    pre:
+        - export EJABBERD_VERSION=latest; export EJABBERD_XMLRPC_PORT=4560; ./ejabberd.sh
+        - export EJABBERD_VERSION=15.06; export EJABBERD_XMLRPC_PORT=4561; ./ejabberd.sh
     override:
-        - ./ejabberd.sh; sleep 10
+        - sleep 10
         - tox
