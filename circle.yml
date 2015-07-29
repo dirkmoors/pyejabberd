@@ -12,9 +12,15 @@ machine:
         PYEJABBERD_TESTS_MUC_SERVICE: conference
         PYEJABBERD_TESTS_PROTOCOL: http
         PYEJABBERD_TESTS_VERBOSE: 0
+        PIP_CACHE_DIR: ~/pip-cache
+    post:
+        - pyenv global pypy-2.4.0 2.6.8 2.7.9 3.3.3 3.4.2
 dependencies:
     cache_directories:
         - "~/docker"
+        - "~/pip-cache"
+    pre:
+        - pip install -U pip
     override:
         - pip install tox
         - docker info
