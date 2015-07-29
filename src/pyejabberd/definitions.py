@@ -82,6 +82,41 @@ class SetNickname(API):
     def transform_response(self, api, arguments, response):
         return response.get('res') == 0
 
+class ConnectedUsers(API):
+    method = 'connected_users'
+    arguments = []
+
+    def transform_response(self, api, arguments, response):
+        connected_users = response.get('connected_users', [])
+
+        return [user["sessions"] for user in connected_users]
+
+class ConnectedUsersInfo(API):
+    method = 'connected_users_info'
+    arguments = []
+
+    def transform_response(self, api, arguments, response):
+        connected_users_info = response.get('connected_users_info', [])
+
+        return [user["sessions"] for user in connected_users_info]
+
+class ConnectedUsersNumber(API):
+    method = 'connected_users_number'
+    arguments = []
+
+    def transform_response(self, api, arguments, response):
+        return response.get('num_sessions')
+
+class UserSessionInfo(API):
+    method = 'user_sessions_info'
+    arguments = [StringArgument('user'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        sessions_info = response.get('sessions_info', [])
+        return [
+            dict((k, v) for property_k_v in session["session"] for k, v in property_k_v.items())
+            for session in sessions_info
+        ]
 
 class MucOnlineRooms(API):
     method = 'muc_online_rooms'
