@@ -2,8 +2,16 @@
 Python API Client for Ejabberd
 ==============================
 
-| |docs| |circleci| |coveralls| |scrutinizer|
-| |version| |downloads| |wheel| |pyversions| |ejabberdversions| |implementation|
+.. list-table::
+    :stub-columns: 1
+
+    * - docs
+      - |docs|
+    * - tests
+      - | |circleci|
+        | |coveralls| |scrutinizer|
+    * - package
+      - |version| |downloads| |wheel| |pyversions| |ejabberdversions| |implementation|
 
 .. |docs| image:: https://readthedocs.org/projects/pyejabberd/badge/?style=flat
     :target: https://pyejabberd.readthedocs.org/en/latest/
@@ -44,6 +52,8 @@ Python API Client for Ejabberd
 .. |scrutinizer| image:: https://img.shields.io/scrutinizer/g/dirkmoors/pyejabberd/master.png?style=flat
     :alt: Scrtinizer Status
     :target: https://scrutinizer-ci.com/g/dirkmoors/pyejabberd/
+
+A Python client for the Ejabberd XMLRPC API
 
 * Free software: MIT license
 
