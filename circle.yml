@@ -18,9 +18,12 @@ dependencies:
     override:
         - pip install tox
         - docker info
-        - if [[ -e ~/docker/image.tar ]]; then docker load --input ~/docker/image.tar; fi
-        - docker pull dirkmoors/ejabberd
-        - mkdir -p ~/docker; docker save dirkmoors/ejabberd > ~/docker/image.tar
+        - if [[ -e ~/docker/ejabberd-latest.tar ]]; then docker load --input ~/docker/ejabberd-latest.tar; fi
+        - docker pull rroemhild/ejabberd:latest
+        - mkdir -p ~/docker; docker save rroemhild/ejabberd:latest > ~/docker/ejabberd-latest.tar
+        - if [[ -e ~/docker/ejabberd-15.06.tar ]]; then docker load --input ~/docker/ejabberd-15.06.tar; fi
+        - docker pull rroemhild/ejabberd:15.06
+        - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.06 > ~/docker/ejabberd-15.06.tar
 test:
     override:
         - ./ejabberd.sh; sleep 10
