@@ -348,47 +348,49 @@ class EjabberdAPITests(unittest.TestCase):
                                                               affiliation=Affiliation.owner))
 
     def test_get_affiliations(self):
-        with create_test_user(self.api, 'testuser_10', host=XMPP_DOMAIN) as username1, \
-                create_test_user(self.api, 'testuser_11', host=XMPP_DOMAIN) as username2, \
-                create_test_user(self.api, 'testuser_12', host=XMPP_DOMAIN) as username3, \
-                create_test_user(self.api, 'testuser_13', host=XMPP_DOMAIN) as username4, \
-                create_test_user(self.api, 'testuser_14', host=XMPP_DOMAIN) as username5:
-            with create_test_room(self.api, 'testroom_29', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
-                usernames = [username1, username2, username3, username4, username5]
-                input_affiliations = [Affiliation.outcast, Affiliation.none, Affiliation.member, Affiliation.admin,
-                                      Affiliation.owner]
+        # Heavy nesting but at least it's compatible with python 2.6
+        with create_test_user(self.api, 'testuser_10', host=XMPP_DOMAIN) as username1:
+            with create_test_user(self.api, 'testuser_11', host=XMPP_DOMAIN) as username2:
+                with create_test_user(self.api, 'testuser_12', host=XMPP_DOMAIN) as username3:
+                    with create_test_user(self.api, 'testuser_13', host=XMPP_DOMAIN) as username4:
+                        with create_test_user(self.api, 'testuser_14', host=XMPP_DOMAIN) as username5:
+                            with create_test_room(self.api, 'testroom_29', service=MUC_SERVICE, host=XMPP_DOMAIN
+                                                  ) as room:
+                                usernames = [username1, username2, username3, username4, username5]
+                                input_affiliations = [Affiliation.outcast, Affiliation.none, Affiliation.member,
+                                                      Affiliation.admin, Affiliation.owner]
 
-                for i in range(len(usernames)):
-                    jid = '%s@%s' % (usernames[i], XMPP_DOMAIN)
-                    self.assertTrue(self.api.set_room_affiliation(
-                        room, service=MUC_SERVICE, jid=jid, affiliation=input_affiliations[i]))
+                                for i in range(len(usernames)):
+                                    jid = '%s@%s' % (usernames[i], XMPP_DOMAIN)
+                                    self.assertTrue(self.api.set_room_affiliation(
+                                        room, service=MUC_SERVICE, jid=jid, affiliation=input_affiliations[i]))
 
-                output_affiliations = self.api.get_room_affiliations(room, service=MUC_SERVICE)
-                self.assertEqual(len(output_affiliations), 4)
+                                output_affiliations = self.api.get_room_affiliations(room, service=MUC_SERVICE)
+                                self.assertEqual(len(output_affiliations), 4)
 
-                affiliations_dict = {}
-                for affiliation in output_affiliations:
-                    self.assertEqual(affiliation['domain'], XMPP_DOMAIN)
-                    self.assertEqual(affiliation['reason'], '')
-                    affiliations_dict[affiliation['username']] = affiliation['affiliation']
+                                affiliations_dict = {}
+                                for affiliation in output_affiliations:
+                                    self.assertEqual(affiliation['domain'], XMPP_DOMAIN)
+                                    self.assertEqual(affiliation['reason'], '')
+                                    affiliations_dict[affiliation['username']] = affiliation['affiliation']
 
-                for i in range(len(usernames)):
-                    username = usernames[i]
-                    expected_affiliation = input_affiliations[i]
+                                for i in range(len(usernames)):
+                                    username = usernames[i]
+                                    expected_affiliation = input_affiliations[i]
 
-                    if expected_affiliation == Affiliation.none:
-                        self.assertTrue(username not in affiliations_dict)
-                        continue
+                                    if expected_affiliation == Affiliation.none:
+                                        self.assertTrue(username not in affiliations_dict)
+                                        continue
 
-                    self.assertEqual(affiliations_dict[username], expected_affiliation)
+                                    self.assertEqual(affiliations_dict[username], expected_affiliation)
 
-                for i in range(len(usernames)):
-                    jid = '%s@%s' % (usernames[i], XMPP_DOMAIN)
-                    self.assertTrue(self.api.set_room_affiliation(
-                        room, service=MUC_SERVICE, jid=jid, affiliation=Affiliation.none))
+                                for i in range(len(usernames)):
+                                    jid = '%s@%s' % (usernames[i], XMPP_DOMAIN)
+                                    self.assertTrue(self.api.set_room_affiliation(
+                                        room, service=MUC_SERVICE, jid=jid, affiliation=Affiliation.none))
 
-                output_affiliations = self.api.get_room_affiliations(room, service=MUC_SERVICE)
-                self.assertEqual(len(output_affiliations), 0)
+                                output_affiliations = self.api.get_room_affiliations(room, service=MUC_SERVICE)
+                                self.assertEqual(len(output_affiliations), 0)
 
 
 class LibraryTests(unittest.TestCase):
