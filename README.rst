@@ -3,7 +3,7 @@ Python API Client for Ejabberd
 ==============================
 
 | |docs| |circleci| |coveralls| |scrutinizer|
-| |version| |downloads| |wheel| |pyversions| |implementation|
+| |version| |downloads| |wheel| |pyversions| |ejabberdversions| |implementation|
 
 .. |docs| image:: https://readthedocs.org/projects/pyejabberd/badge/?style=flat
     :target: https://pyejabberd.readthedocs.org/en/latest/
@@ -30,8 +30,12 @@ Python API Client for Ejabberd
     :target: https://pypi.python.org/pypi/pyejabberd
 
 .. |pyversions| image:: https://img.shields.io/pypi/pyversions/pyejabberd.svg?style=flat
-    :alt: Supported versions
+    :alt: Supported python versions
     :target: https://pypi.python.org/pypi/pyejabberd
+
+.. |ejabberdversions| image:: https://img.shields.io/badge/ejabberd-15.04%2C%2015.06%2C%2015.07-blue.svg
+    :alt: Supported ejabberd versions
+    :target: https://github.com/processone/ejabberd
 
 .. |implementation| image:: https://img.shields.io/pypi/implementation/pyejabberd.svg?style=flat
     :alt: Supported imlementations
