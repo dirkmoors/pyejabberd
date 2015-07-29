@@ -11,7 +11,9 @@ Python API Client for Ejabberd
       - | |circleci|
         | |coveralls| |scrutinizer|
     * - package
-      - |version| |downloads| |wheel| |pyversions| |ejabberdversions| |implementation|
+      - |version| |downloads| |wheel|
+    * - compatibility
+      - |pyversions| |ejabberdversions| |implementation|
 
 .. |docs| image:: https://readthedocs.org/projects/pyejabberd/badge/?style=flat
     :target: https://pyejabberd.readthedocs.org/en/latest/
