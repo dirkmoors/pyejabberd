@@ -11,3 +11,4 @@ sphinx_py3doc_enhanced_theme>=2.0.1
 pyopenssl>=0.15.1
 ndg-httpsclient>=0.4.0
 pyasn1>=0.1.7
+pytest>=2.7.2
