@@ -13,7 +13,7 @@ Python API Client for Ejabberd
     * - package
       - |version| |downloads| |wheel|
     * - compatibility
-      - |pyversions| |ejabberdversions| |implementation|
+      - |pyversions| |implementation| |ejabberdversions|
 
 .. |docs| image:: https://readthedocs.org/projects/pyejabberd/badge/?style=flat
     :target: https://pyejabberd.readthedocs.org/en/latest/
