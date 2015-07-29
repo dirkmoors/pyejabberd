@@ -2,7 +2,7 @@
 Python API Client for Ejabberd
 ==============================
 
-| |docs| |circleci| |coveralls| |landscape| |scrutinizer|
+| |docs| |circleci| |coveralls| |scrutinizer|
 | |version| |downloads| |wheel| |pyversions| |implementation|
 
 .. |docs| image:: https://readthedocs.org/projects/pyejabberd/badge/?style=flat
@@ -16,10 +16,6 @@ Python API Client for Ejabberd
 .. |coveralls| image:: http://img.shields.io/coveralls/dirkmoors/pyejabberd/master.png?style=flat
     :alt: Coverage Status
     :target: https://coveralls.io/r/dirkmoors/pyejabberd
-
-.. |landscape| image:: https://landscape.io/github/dirkmoors/pyejabberd/master/landscape.svg?style=flat
-    :target: https://landscape.io/github/dirkmoors/pyejabberd
-    :alt: Code Quality Status
 
 .. |version| image:: http://img.shields.io/pypi/v/pyejabberd.png?style=flat
     :alt: PyPI Package latest release
