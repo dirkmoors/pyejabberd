@@ -3,10 +3,10 @@ from __future__ import unicode_literals, print_function
 import os
 import sys
 
-if sys.version_info > (2, 6):
-    from unittest import TestCase, skipIf, main as run_unittests
+if sys.version_info >= (2, 7):
+    from unittest import TestCase, main as run_unittests
 else:  # pragma: no cover
-    from unittest2 import TestCase, skipIf, main as run_unittests
+    from unittest2 import TestCase, main as run_unittests
 
 from pyejabberd import EjabberdAPIClient
 from pyejabberd.defaults import XMLRPC_API_PORT
