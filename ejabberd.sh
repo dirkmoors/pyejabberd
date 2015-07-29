@@ -10,4 +10,4 @@ docker run -d -p "4560:4560" -p "5280:5280" \
     -e "EJABBERD_MOD_MUC_ADMIN=true" \
     -e "EJABBERD_WEB_ADMIN_SSL=false" \
     -e "EJABBERD_S2S_SSL=true" \
-    dirkmoors/ejabberd
+    rroemhild/ejabberd:${EJABBERD_VERSION:=15.06}
