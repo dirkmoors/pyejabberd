@@ -102,6 +102,18 @@ Usage
     # Set nickname
     client.set_nickname(user='bob', host='example.com', nickname='Bob the builder')
 
+    # Get list of *all* connected users
+    client.connected_users()
+
+    # Get list of *all* connected users and information about their sessions
+    client.connected_users_info()
+
+    # Get number of connected users
+    client.connected_users_number()
+
+    # Get information for all sessions for a user
+    client.user_sessions_info(user="jim", host="example.com"):
+
     # Get muc rooms
     muc_online_rooms = client.muc_online_rooms()
     # result is in the format ['room1@conference', ...] where 'conference' is the muc service name
