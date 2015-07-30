@@ -18,7 +18,7 @@ from pip.req import parse_requirements
 from setuptools import find_packages
 from setuptools import setup
 
-__version__ = '0.2.6'
+__version__ = '0.2.7'
 
 
 def read(*names, **kwargs):
