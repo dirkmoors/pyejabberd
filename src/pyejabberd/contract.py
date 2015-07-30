@@ -34,6 +34,22 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):  # pragma: no cover
         pass
 
     @abstractmethod
+    def connected_users(self):
+        pass
+
+    @abstractmethod
+    def connected_users_info(self):
+        pass
+
+    @abstractmethod
+    def connected_users_number(self):
+        pass
+
+    @abstractmethod
+    def user_sessions_info(self, user, host):
+        pass
+
+    @abstractmethod
     def muc_online_rooms(self, host=None):
         pass
 

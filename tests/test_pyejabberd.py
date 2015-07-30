@@ -163,6 +163,22 @@ class EjabberdAPITests(TestCase):
             result = self.api.set_nickname(username, host=XMPP_DOMAIN, nickname='blabla')
             self.assertTrue(result)
 
+    def test_connected_users(self):
+        result = self.api.connected_users()
+        self.assertTrue(isinstance(result, (list)))
+
+    def test_connected_users_info(self):
+        result = self.api.connected_users_info()
+        self.assertTrue(isinstance(result, (list)))
+
+    def test_connected_users_number(self):
+        result = self.api.connected_users_number()
+        self.assertTrue(isinstance(result, (int)))
+
+    def test_user_sessions_info(self):
+        result = self.api.user_sessions_info('admin', XMPP_DOMAIN)
+        self.assertTrue(isinstance(result, (list)))
+
     def test_create_destroy_room(self):
         with create_test_room(self.api, 'testroom_1', service=MUC_SERVICE, host=XMPP_DOMAIN,
                               test_existence=False) as room:

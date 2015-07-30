@@ -2,6 +2,14 @@
 Changelog
 =========
 
+0.2.7 (2015-07-28)
+------------------
+
+* Added API: connected_users
+* Added API: connected_users_info
+* Added API: connected_users_number
+* Added API: user_sessions_info
+
 0.2.6 (2015-07-14)
 ------------------
 

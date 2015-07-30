@@ -213,6 +213,42 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.SetNickname, user=user, host=host, nickname=nickname)
 
+    def connected_users(self):
+        """
+        List all established sessions
+        :rtype: list
+        :return: a list of dictionaries containing user jids
+        """
+        return self._call_api(definitions.ConnectedUsers)
+
+    def connected_users_info(self):
+        """
+        List all established sessions and their information
+        :rtype: list
+        :return: a list of dictionaries containing user info
+        """
+        return self._call_api(definitions.ConnectedUsersInfo)
+
+    def connected_users_number(self):
+        """
+        Get the number of established sessions
+        :rtype: int
+        :return: number of established user sessions
+        """
+        return self._call_api(definitions.ConnectedUsersNumber)
+
+    def user_sessions_info(self, user, host):
+        """
+        Get information about all sessions of a user
+        :param user: The username for the user we want info for
+        :type user: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :rtype: list
+        :return: list of information of sessions for a user
+        """
+        return self._call_api(definitions.UserSessionInfo, user=user, host=host)
+
     def muc_online_rooms(self, host=None):
         """
         List existing rooms ('global' to get all vhosts)
