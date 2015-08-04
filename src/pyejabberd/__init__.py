@@ -1,4 +1,4 @@
-__version__ = "0.2.7"
+__version__ = "0.2.8"
 
 try:  # pragma: no cover
     # https://urllib3.readthedocs.org/en/latest/security.html#pyopenssl
