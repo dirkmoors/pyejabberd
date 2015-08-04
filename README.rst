@@ -43,7 +43,7 @@ Python API Client for Ejabberd
     :alt: Supported python versions
     :target: https://pypi.python.org/pypi/pyejabberd
 
-.. |ejabberdversions| image:: https://img.shields.io/badge/ejabberd-15.04%2C%2015.06%2C%2015.07-blue.svg
+.. |ejabberdversions| image:: https://img.shields.io/badge/ejabberd-15.06%2C%2015.07-blue.svg
     :alt: Supported ejabberd versions
     :target: https://github.com/processone/ejabberd
 
