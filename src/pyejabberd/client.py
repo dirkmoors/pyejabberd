@@ -4,11 +4,8 @@ import copy
 
 from builtins import range
 
-from future.standard_library import install_aliases
-install_aliases()
-
-from urllib.parse import urlparse
-from xmlrpc import client as xmlrpc_client
+from .compat import urlparse
+from .compat import xmlrpc_client
 
 from . import contract, definitions, defaults
 from .core.definitions import API, APIArgument

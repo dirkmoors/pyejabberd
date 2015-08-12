@@ -3,10 +3,7 @@ from __future__ import unicode_literals, print_function
 import os
 import sys
 
-if sys.version_info >= (2, 7):
-    from unittest import TestCase, main as run_unittests
-else:  # pragma: no cover
-    from unittest2 import TestCase, main as run_unittests
+from pyejabberd.compat import TestCase, skipIf
 
 from pyejabberd import EjabberdAPIClient
 from pyejabberd.defaults import XMLRPC_API_PORT
@@ -16,6 +13,7 @@ from pyejabberd.core.arguments import StringArgument, BooleanArgument, IntegerAr
 from pyejabberd.muc.arguments import MUCRoomArgument
 from pyejabberd.muc.enums import AllowVisitorPrivateMessage, Affiliation
 from pyejabberd.utils import format_password_hash_md5, format_password_hash_sha
+from pyejabberd.contrib import ejabberd_testserver_is_up
 
 HOST = os.environ.get('PYEJABBERD_TESTS_HOST', 'localhost')
 PORT = int(os.environ.get('PYEJABBERD_TESTS_PORT', 4560))
@@ -27,6 +25,8 @@ PROTOCOL = os.environ.get('PYEJABBERD_TESTS_PROTOCOL', 'http')
 VERBOSE = int(os.environ.get('PYEJABBERD_TESTS_VERBOSE', 0)) == 1
 
 
+@skipIf(not ejabberd_testserver_is_up('%s://%s:%s' % (PROTOCOL, HOST, PORT)),
+        'Ejabberd XMLRPC Service is not reachable at %s://%s:%s' % (PROTOCOL, HOST, PORT))
 class EjabberdAPITests(TestCase):
     def setUp(self):
         verbose = True
