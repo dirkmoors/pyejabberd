@@ -193,3 +193,30 @@ class GetRoomAffiliations(API):
             'affiliation': Affiliation.get_by_name(subdict['affiliation'][2]['affiliation']),
             'reason': subdict['affiliation'][3]['reason'],
         } for subdict in affiliations]
+
+
+class AddRosterItem(API):
+    method = 'add_rosteritem'
+    arguments = [StringArgument('localuser'), StringArgument('localserver'), 
+                 StringArgument('user'), StringArgument('server'), 
+                 StringArgument('nick'), StringArgument('group'), StringArgument('subs')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0
+
+
+class DeleteRosterItem(API):
+    method = 'delete_rosteritem'
+    arguments = [StringArgument('localuser'), StringArgument('localserver'), 
+                 StringArgument('user'), StringArgument('server')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0
+
+
+class GetRoster(API):
+    method = 'get_roster'
+    arguments = [StringArgument('user'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('roster')

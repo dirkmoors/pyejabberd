@@ -76,3 +76,15 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):  # pragma: no cover
     @abstractmethod
     def get_room_affiliations(self, name, service):
         pass
+
+    @abstractmethod
+    def add_rosteritem(self, localuser, localserver, user, server, nick, group, subs):
+        pass
+
+    @abstractmethod
+    def delete_rosteritem(self, localuser, localserver, user, server):
+        pass
+
+    @abstractmethod
+    def get_roster(self, user, host):
+        pass
