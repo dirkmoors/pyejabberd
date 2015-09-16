@@ -66,6 +66,14 @@ Installation
 
     pip install pyejabberd
 
+Contributors
+============
+
+A big thanks to the contributors:
+
+    * Jim Cortez: https://github.com/jimcortez
+    * Marek Kuziel: https://github.com/encodeltd
+
 Documentation
 =============
 
