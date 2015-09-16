@@ -197,8 +197,8 @@ class GetRoomAffiliations(API):
 
 class AddRosterItem(API):
     method = 'add_rosteritem'
-    arguments = [StringArgument('localuser'), StringArgument('localserver'), 
-                 StringArgument('user'), StringArgument('server'), 
+    arguments = [StringArgument('localuser'), StringArgument('localserver'),
+                 StringArgument('user'), StringArgument('server'),
                  StringArgument('nick'), StringArgument('group'), StringArgument('subs')]
 
     def transform_response(self, api, arguments, response):
@@ -207,7 +207,7 @@ class AddRosterItem(API):
 
 class DeleteRosterItem(API):
     method = 'delete_rosteritem'
-    arguments = [StringArgument('localuser'), StringArgument('localserver'), 
+    arguments = [StringArgument('localuser'), StringArgument('localserver'),
                  StringArgument('user'), StringArgument('server')]
 
     def transform_response(self, api, arguments, response):
@@ -223,7 +223,7 @@ class GetRoster(API):
         for contact in response.get('contacts', []):
             contact_details = {}
             for parameter in contact['contact']:
-                for key,value in parameter.items():
+                for key, value in parameter.items():
                     contact_details[key] = value
             roster.append(contact_details)
         return roster

@@ -361,7 +361,10 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :type subs: str|unicode
         :return:
         """
-        return self._call_api(definitions.AddRosterItem, localuser=localuser, localserver=localserver, user=user, server=server, nick=nick, group=group, subs=subs)
+        return self._call_api(definitions.AddRosterItem,
+                              localuser=localuser, localserver=localserver,
+                              user=user, server=server,
+                              nick=nick, group=group, subs=subs)
 
     def delete_rosteritem(self, localuser, localserver, user, server):
         """
@@ -391,7 +394,6 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :return: A list of user's contacts
         """
         return self._call_api(definitions.GetRoster, user=user, host=host)
-
 
     def _validate_and_serialize_arguments(self, api, arguments):
         """
