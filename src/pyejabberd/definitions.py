@@ -219,4 +219,4 @@ class GetRoster(API):
     arguments = [StringArgument('user'), StringArgument('host')]
 
     def transform_response(self, api, arguments, response):
-        return response.get('roster')
+        return response.get('contacts')
