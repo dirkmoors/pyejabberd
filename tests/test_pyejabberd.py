@@ -413,6 +413,44 @@ class EjabberdAPITests(TestCase):
                                 output_affiliations = self.api.get_room_affiliations(room, service=MUC_SERVICE)
                                 self.assertEqual(len(output_affiliations), 0)
 
+    def test_roster_commands(self):
+        # create test users
+        try:
+            user1_created = create_test_user(self.api, 'testuser_15', host=XMPP_DOMAIN)
+        except UserAlreadyRegisteredError:
+            user1_created = False
+        try:
+            user2_created = create_test_user(self.api, 'testuser_16', host=XMPP_DOMAIN)
+        except UserAlreadyRegisteredError:
+            user2_created = False
+        # if users already exist delete the second user from the first user's roster
+        if user1_created == False and user2_created == False:
+            delete_rosteritem = self.api.delete_rosteritem('testuser_15', XMPP_DOMAIN, 'testuser_16', XMPP_DOMAIN)
+            self.assertTrue(delete_rosteritem)
+        # check if the first user's roster is empty
+        roster = self.api.get_roster('testuser_15', XMPP_DOMAIN)
+        self.assertEqual(roster, [])
+        # add the second user to the first user's roster
+        add_rosteritem = self.api.add_rosteritem('testuser_15', XMPP_DOMAIN, 'testuser_16', XMPP_DOMAIN, 'testuser_16', 'buddies', 'both')
+        self.assertTrue(add_rosteritem)
+        # check if the first user's roster contains the second user
+        roster = self.api.get_roster('testuser_15', XMPP_DOMAIN)
+        self.assertEqual(roster[0]['jid'], 'testuser_16@{0}'.format(XMPP_DOMAIN))
+        self.assertEqual(roster[0]['group'], 'buddies')
+        # add the second user to the first user's roster again, now to a different group
+        add_rosteritem = self.api.add_rosteritem('testuser_15', XMPP_DOMAIN, 'testuser_16', XMPP_DOMAIN, 'testuser_16', 'friends', 'both')
+        self.assertTrue(add_rosteritem)
+        # check if the first user's roster contains the second user in the different group
+        roster = self.api.get_roster('testuser_15', XMPP_DOMAIN)
+        self.assertEqual(roster[0]['jid'], 'testuser_16@{0}'.format(XMPP_DOMAIN))
+        self.assertEqual(roster[0]['group'], 'friends')
+        # delete the second user from the first user's roster
+        delete_rosteritem = self.api.delete_rosteritem('testuser_15', XMPP_DOMAIN, 'testuser_16', XMPP_DOMAIN)
+        self.assertTrue(delete_rosteritem)
+        # check if the first user's roster is empty
+        roster = self.api.get_roster('testuser_15', XMPP_DOMAIN)
+        self.assertEqual(roster, [])
+
 
 class LibraryTests(TestCase):
     def test_string_argument(self):

@@ -341,6 +341,60 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.GetRoomAffiliations, name=name, service=service)
 
+    def add_rosteritem(self, localuser, localserver, user, server, nick, group, subs):
+        """
+        Add an item to a user's roster
+
+        :param localuser: The username of user we are going to add a contact to
+        :type localuser: str|unicode
+        :param localserver: The XMPP_DOMAIN
+        :type localserver: str|unicode
+        :param user: The contact we are going to add to the user's roster
+        :type user: str|unicode
+        :param server: The XMPP_DOMAIN
+        :type server: str|unicode
+        :param nick: Nickname of the contact
+        :type nick: str|unicode
+        :param group: To what contact group the contact goes to
+        :type group: str|unicode
+        :param subs: The type of subscription
+        :type subs: str|unicode
+        :return:
+        """
+        return self._call_api(definitions.AddRosterItem,
+                              localuser=localuser, localserver=localserver,
+                              user=user, server=server,
+                              nick=nick, group=group, subs=subs)
+
+    def delete_rosteritem(self, localuser, localserver, user, server):
+        """
+        Delete an item from a user's roster
+
+        :param localuser: The username of user we are going to delete a contact from
+        :type localuser: str|unicode
+        :param localserver: The XMPP_DOMAIN
+        :type localserver: str|unicode
+        :param user: The contact we are going to delete from the user's roster
+        :type user: str|unicode
+        :param server: The XMPP_DOMAIN
+        :type server: str|unicode
+        :return:
+        """
+        return self._call_api(definitions.DeleteRosterItem, localuser=localuser, localserver=localserver, user=user, server=server)
+
+    def get_roster(self, user, host):
+        """
+        Get roster of a user
+
+        :param user: The username of the user we want contact information for
+        :type user: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :rtype: Iterable
+        :return: A list of user's contacts
+        """
+        return self._call_api(definitions.GetRoster, user=user, host=host)
+
     def _validate_and_serialize_arguments(self, api, arguments):
         """
         Internal method to validate and serialize arguments
