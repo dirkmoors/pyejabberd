@@ -2,6 +2,13 @@
 Changelog
 =========
 
+0.2.10 (2015-09-16)
+-------------------
+
+* Added API: add_rosteritem
+* Added API: delete_rosteritem
+* Added API: get_roster
+
 0.2.9 (2015-08-12)
 ------------------
 
