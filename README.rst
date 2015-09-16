@@ -102,6 +102,15 @@ Usage
     # Set nickname
     client.set_nickname(user='bob', host='example.com', nickname='Bob the builder')
 
+    # Get Bob's contacts
+    client.get_roster(user='bob', host='example.com')
+
+    # Add Alice to Bob's contact group Friends
+    client.add_rosteritem(localuser='bob', localserver='example.com', user='alice', server='example.com', nick='Alice from Wonderland', group='Friends', subs='both')
+
+    # Delete Alice from Bob's contact group Friends
+    client.delete_rosteritem(localuser='bob', localserver='example.com', user='alice', server='example.com')
+
     # Get list of *all* connected users
     client.connected_users()
 
