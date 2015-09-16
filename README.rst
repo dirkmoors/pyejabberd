@@ -8,10 +8,9 @@ Python API Client for Ejabberd
     * - docs
       - |docs|
     * - tests
-      - | |circleci|
-        | |coveralls| |scrutinizer|
+      - | |circleci| |coveralls| |scrutinizer|
     * - package
-      - |version| |downloads| |wheel|
+      - |requirements| |version| |downloads| |wheel|
     * - compatibility
       - |pyversions| |implementation| |ejabberdversions|
 
@@ -38,6 +37,10 @@ Python API Client for Ejabberd
 .. |wheel| image:: https://img.shields.io/pypi/wheel/pyejabberd.svg?style=flat
     :alt: PyPI Wheel
     :target: https://pypi.python.org/pypi/pyejabberd
+
+.. |requirements| image:: https://requires.io/github/dirkmoors/pyejabberd/requirements.svg?branch=master
+     :target: https://requires.io/github/dirkmoors/pyejabberd/requirements/?branch=master
+     :alt: Requirements Status
 
 .. |pyversions| image:: https://img.shields.io/pypi/pyversions/pyejabberd.svg?style=flat
     :alt: Supported python versions
