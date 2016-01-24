@@ -30,6 +30,9 @@ dependencies:
         - if [[ -e ~/docker/ejabberd-15.09.tar ]]; then docker load --input ~/docker/ejabberd-15.09.tar; fi
         - docker pull rroemhild/ejabberd:15.09
         - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.09 > ~/docker/ejabberd-15.09.tar
+        - if [[ -e ~/docker/ejabberd-15.10.tar ]]; then docker load --input ~/docker/ejabberd-15.10.tar; fi
+        - docker pull rroemhild/ejabberd:15.10
+        - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.10 > ~/docker/ejabberd-15.10.tar
         - if [[ -e ~/docker/ejabberd-15.11.tar ]]; then docker load --input ~/docker/ejabberd-15.11.tar; fi
         - docker pull rroemhild/ejabberd:15.11
         - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.11 > ~/docker/ejabberd-15.11.tar
