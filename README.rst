@@ -113,6 +113,9 @@ Usage
     # Set nickname
     client.set_nickname(user='bob', host='example.com', nickname='Bob the builder')
 
+    # Check if Alice has an account
+    client.check_account(user='alice', host='example.com')
+
     # Get Bob's contacts
     client.get_roster(user='bob', host='example.com')
 

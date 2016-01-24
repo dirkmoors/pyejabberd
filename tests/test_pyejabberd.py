@@ -452,6 +452,18 @@ class EjabberdAPITests(TestCase):
         self.assertEqual(roster, [])
 
 
+    def test_check_account(self):
+        try:
+            user_created = create_test_user(self.api, 'testuser_17', host=XMPP_DOMAIN)
+        except UserAlreadyRegisteredError:
+            user_created = False
+        check_account = self.api.check_account('testuser_17', XMPP_DOMAIN)
+        self.assertTrue(check_account)
+        self.api.unregister('testuser_17', host=XMPP_DOMAIN)
+        check_account = self.api.check_account('testuser_17', XMPP_DOMAIN)
+        self.assertFalse(check_account)
+
+
 class LibraryTests(TestCase):
     def test_string_argument(self):
         serializer = self._test_argument_and_get_serializer(StringArgument)

@@ -86,5 +86,9 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):  # pragma: no cover
         pass
 
     @abstractmethod
-    def get_roster(self, user, host):
+    def get_roster(self, user, server):
+        pass
+
+    @abstractmethod
+    def check_account(self, user, host):
         pass
