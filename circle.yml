@@ -27,17 +27,17 @@ dependencies:
         - if [[ -e ~/docker/ejabberd-latest.tar ]]; then docker load --input ~/docker/ejabberd-latest.tar; fi
         - docker pull rroemhild/ejabberd:latest
         - mkdir -p ~/docker; docker save rroemhild/ejabberd:latest > ~/docker/ejabberd-latest.tar
-        - if [[ -e ~/docker/ejabberd-15.06.tar ]]; then docker load --input ~/docker/ejabberd-15.06.tar; fi
-        - docker pull rroemhild/ejabberd:15.06
-        - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.06 > ~/docker/ejabberd-15.06.tar
-        - if [[ -e ~/docker/ejabberd-15.07.tar ]]; then docker load --input ~/docker/ejabberd-15.07.tar; fi
-        - docker pull rroemhild/ejabberd:15.07
-        - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.07 > ~/docker/ejabberd-15.07.tar
+        - if [[ -e ~/docker/ejabberd-15.09.tar ]]; then docker load --input ~/docker/ejabberd-15.09.tar; fi
+        - docker pull rroemhild/ejabberd:15.09
+        - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.09 > ~/docker/ejabberd-15.09.tar
+        - if [[ -e ~/docker/ejabberd-15.11.tar ]]; then docker load --input ~/docker/ejabberd-15.11.tar; fi
+        - docker pull rroemhild/ejabberd:15.11
+        - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.11 > ~/docker/ejabberd-15.11.tar
 test:
     pre:
         - export EJABBERD_VERSION=latest; export EJABBERD_XMLRPC_PORT=4560; ./ejabberd.sh
-        - export EJABBERD_VERSION=15.06; export EJABBERD_XMLRPC_PORT=4561; ./ejabberd.sh
-        - export EJABBERD_VERSION=15.07; export EJABBERD_XMLRPC_PORT=4562; ./ejabberd.sh
+        - export EJABBERD_VERSION=15.09; export EJABBERD_XMLRPC_PORT=4561; ./ejabberd.sh
+        - export EJABBERD_VERSION=15.11; export EJABBERD_XMLRPC_PORT=4562; ./ejabberd.sh
     override:
         - sleep 10
         - tox
