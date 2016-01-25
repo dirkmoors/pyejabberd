@@ -204,7 +204,11 @@ you will experience errors like::
 
     Error -120\nThe call provided additional unused arguments:\n[{host,<<"example.com">>}]
 
-Btw. forgetting to put ``commands_admin_access`` with correct access group will also result in the same errors(!).
+The previous error happens in two cases:
+
+1. if you forget to set ``commands_admin_access`` in your ``ejabberd.yml`` with correct access group.
+
+2. if arguments of given command changed. Eg. ``get_roster`` parameter ``host`` changed to ``server``.
 
 
 Example of XMLRPC setup in ``ejabberd.yml``::
