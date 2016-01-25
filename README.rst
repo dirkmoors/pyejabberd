@@ -195,7 +195,7 @@ From ``Ejabberd 15.09`` onwards:
 
 1. Parameter ``{admin, True}`` (``'admin': True``) must be added to all admin command calls.
 
-2. New configuration paramter ``commands_admin_access`` must specify which access group can execute admin commands.
+2. New configuration parameter ``commands_admin_access`` must specify which access group can execute admin commands.
 
 3. Some of the commands have different arguments.
 
@@ -203,6 +203,8 @@ The incompatibility means that if you use ``pyejabberd 0.2.10`` and older with `
 you will experience errors like::
 
     Error -120\nThe call provided additional unused arguments:\n[{host,<<"example.com">>}]
+
+Btw. forgetting to put ``commands_admin_access`` with correct access group will also result in the same errors(!).
 
 
 Example of XMLRPC setup in ``ejabberd.yml``::
