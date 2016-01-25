@@ -119,7 +119,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         return {
             'user': self.username,
             'server': self.user_domain,
-            'password': self.password
+            'password': self.password,
+            'admin': True
         }
 
     def echo(self, sentence):
@@ -382,18 +383,30 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.DeleteRosterItem, localuser=localuser, localserver=localserver, user=user, server=server)
 
-    def get_roster(self, user, host):
+    def get_roster(self, user, server):
         """
         Get roster of a user
 
         :param user: The username of the user we want contact information for
         :type user: str|unicode
-        :param host: The XMPP_DOMAIN
-        :type host: str|unicode
+        :param server: The XMPP_DOMAIN
+        :type server: str|unicode
         :rtype: Iterable
         :return: A list of user's contacts
         """
-        return self._call_api(definitions.GetRoster, user=user, host=host)
+        return self._call_api(definitions.GetRoster, user=user, server=server)
+
+    def check_account(self, user, host):
+        """
+        Check if an account exists or not
+
+        :param user: The username of the user we want to check account existence for
+        :type user: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :return:
+        """
+        return self._call_api(definitions.CheckAccount, user=user, host=host)
 
     def _validate_and_serialize_arguments(self, api, arguments):
         """
