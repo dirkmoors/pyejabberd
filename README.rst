@@ -272,9 +272,9 @@ Code example illustrating the configuration and expected outcomes:
                                      protocol='http')
 
     # all commands are allowed for the client so the following will work
-    print local_client.check_account('username_to_check', 'example.com')
+    print local_client.check_account('alice', 'example.com')
     # and this will work too providing the user exists of course
-    print local_client.get_roster('username_to_check', 'example.com')
+    print local_client.get_roster('alice', 'example.com')
 
     # API client connected to an external IP ie. check_account command only
     external_client = EjabberdAPIClient(host='192.168.1.1',
