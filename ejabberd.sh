@@ -10,4 +10,4 @@ docker run -d -p "${EJABBERD_XMLRPC_PORT:=4560}:4560" \
     -e "EJABBERD_MOD_MUC_ADMIN=true" \
     -e "EJABBERD_WEB_ADMIN_SSL=false" \
     -e "EJABBERD_S2S_SSL=true" \
-    rroemhild/ejabberd:${EJABBERD_VERSION:=15.06}
+    rroemhild/ejabberd:${EJABBERD_VERSION:=16.01}

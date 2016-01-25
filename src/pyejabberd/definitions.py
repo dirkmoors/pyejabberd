@@ -216,7 +216,7 @@ class DeleteRosterItem(API):
 
 class GetRoster(API):
     method = 'get_roster'
-    arguments = [StringArgument('user'), StringArgument('host')]
+    arguments = [StringArgument('user'), StringArgument('server')]
 
     def transform_response(self, api, arguments, response):
         roster = []
@@ -227,3 +227,11 @@ class GetRoster(API):
                     contact_details[key] = value
             roster.append(contact_details)
         return roster
+
+
+class CheckAccount(API):
+    method = 'check_account'
+    arguments = [StringArgument('user'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0
