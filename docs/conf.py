@@ -22,7 +22,7 @@ project = u'Python API Client for Ejabberd'
 year = u'2015'
 author = u'Dirk Moors'
 copyright = '{0}, {1}'.format(year, author)
-version = release = u'0.2.10'
+version = release = u'0.2.11'
 
 import sphinx_py3doc_enhanced_theme
 html_theme = "sphinx_py3doc_enhanced_theme"
