@@ -395,6 +395,30 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.GetRoster, user=user, host=host)
 
+    def stats(self, name):
+        """
+        Get statistical value
+
+        :param name: registeredusers onlineusers onlineusersnode uptimeseconds
+        :type name: str|unicode
+        :rtype: int
+        :return: statistical value
+        """
+        return self._call_api(definitions.Stats, name=name)
+
+    def stats_host(self, name, host):
+        """
+        Get statistical value for this host
+
+        :param name: registeredusers onlineusers onlineusersnode uptimeseconds
+        :type name: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :rtype: int
+        :return: statistical value
+        """
+        return self._call_api(definitions.StatsHost, name=name, host=host)
+
     def _validate_and_serialize_arguments(self, api, arguments):
         """
         Internal method to validate and serialize arguments
