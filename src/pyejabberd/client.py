@@ -196,6 +196,20 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.CheckPasswordHash, user=user, host=host, password=password)
 
+    def check_password(self, user, host, password):
+        """
+        Check if a password is correct.
+        :param user: The username for the user we want to check the password for
+        :type user: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :param password: The password we want to check for the user
+        :type password: str|unicode
+        :rtype: bool
+        :return: A boolean indicating if the given password matches the user's password
+        """
+        return self._call_api(definitions.CheckPassword, user=user, host=host, password=password)
+
     def set_nickname(self, user, host, nickname):
         """
         Set nickname in a user's vCard

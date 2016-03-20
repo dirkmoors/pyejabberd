@@ -74,6 +74,12 @@ class CheckPasswordHash(API):
     def transform_response(self, api, arguments, response):
         return response.get('res') == 0
 
+class CheckPassword(API):
+    method = 'check_password'
+    arguments = [StringArgument('user'), StringArgument('host'), StringArgument('password')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0
 
 class SetNickname(API):
     method = 'set_nickname'
