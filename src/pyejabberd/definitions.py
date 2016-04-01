@@ -227,3 +227,26 @@ class GetRoster(API):
                     contact_details[key] = value
             roster.append(contact_details)
         return roster
+
+class Stats(API):
+    method = 'stats'
+    arguments = [StringArgument('name')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('stat')
+
+class StatsHost(API):
+    method = 'stats_host'
+    arguments = [StringArgument('name'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('stat')
+
+class SendMessage(API):
+    method = 'send_message'
+    arguments = [StringArgument('type'),
+                 StringArgument('_from'), StringArgument('to'),
+                 StringArgument('subject'), StringArgument('body')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res')

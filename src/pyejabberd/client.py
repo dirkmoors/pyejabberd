@@ -395,6 +395,51 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.GetRoster, user=user, host=host)
 
+    def stats(self, name):
+        """
+        Get statistical value
+
+        :param name: registeredusers onlineusers onlineusersnode uptimeseconds
+        :type name: str|unicode
+        :rtype: int
+        :return: statistical value
+        """
+        return self._call_api(definitions.Stats, name=name)
+
+    def stats_host(self, name, host):
+        """
+        Get statistical value for this host
+
+        :param name: registeredusers onlineusers onlineusersnode uptimeseconds
+        :type name: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :rtype: int
+        :return: statistical value
+        """
+        return self._call_api(definitions.StatsHost, name=name, host=host)
+
+    def send_message(self, type, _from, to, subject, body):
+        """
+        Send a message to a local or remote bare of full JID
+
+        :param type: chat | headline | normal
+        :type type: str|unicode
+        :param _from: from JID
+        :type _from: str|unicode
+        :param to: to JID
+        :type to: str|unicode
+        :param subject: message subject
+        :type subject: str|unicode
+        :param body: message body
+        :type body: str|unicode
+        :rtype: int
+        :return: result code
+        """
+        return self._call_api(definitions.SendMessage,
+                              type=type, _from=_from, to=to,
+                              subject=subject, body=body)
+
     def _validate_and_serialize_arguments(self, api, arguments):
         """
         Internal method to validate and serialize arguments
@@ -416,7 +461,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
                 raise IllegalArgumentError('Missing required argument "%s"' % argument_name)
 
             # Serializer argument value
-            serialized_arguments[argument_descriptor.name] = \
+            # we need lstrip underscore for special argument: _from
+            serialized_arguments[argument_descriptor.name.lstrip('_')] = \
                 argument_descriptor.serializer_class().to_api(arguments.get(argument_name))
 
         return serialized_arguments
