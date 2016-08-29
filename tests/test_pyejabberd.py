@@ -14,6 +14,9 @@ from pyejabberd.muc.arguments import MUCRoomArgument
 from pyejabberd.muc.enums import AllowVisitorPrivateMessage, Affiliation
 from pyejabberd.utils import format_password_hash_md5, format_password_hash_sha
 from pyejabberd.contrib import ejabberd_testserver_is_up
+from pyejabberd.definitions import Echo
+from pyejabberd.definitions import UserSessionsInfo
+from pyejabberd.core.errors import IllegalArgumentError
 
 HOST = os.environ.get('PYEJABBERD_TESTS_HOST', 'localhost')
 PORT = int(os.environ.get('PYEJABBERD_TESTS_PORT', 4560))
@@ -34,6 +37,9 @@ class EjabberdAPITests(TestCase):
             host=HOST, port=PORT, username=USERNAME, password=PASSWORD, user_domain=XMPP_DOMAIN, protocol=PROTOCOL,
             verbose=VERBOSE)
         self.assertIsNotNone(self.api)
+
+    def test_testserver_unreachable(self):
+        self.assertFalse(ejabberd_testserver_is_up('%s://%s:%s' % (PROTOCOL, HOST, 31337)))
 
     def test_from_string_ok(self):
         service_url = '%s://%s:%s@%s:%s/%s' % (PROTOCOL, USERNAME, PASSWORD, HOST, PORT,
@@ -117,6 +123,28 @@ class EjabberdAPITests(TestCase):
         self.assertIsNotNone(result)
         self.assertEqual(result, sentence)
 
+    def test_echo_no_auth(self):
+        class EchoNoAuth(Echo):
+            authenticate = False
+        result = self.api._call_api(EchoNoAuth, sentence='foo')
+        self.assertEqual('foo', result)
+
+    def test_missing_argument(self):
+        missing_argument = False
+        try:
+            self.api._validate_and_serialize_arguments(Echo, [])
+        except IllegalArgumentError:
+            missing_argument = True
+        self.assertTrue(missing_argument)
+
+    def test_report_method_call(self):
+        self.api.verbose = False
+        report = self.api._report_method_call('echo', {'sentence': 'foo'})
+        self.assertEqual(report, None)
+        self.api.verbose = True
+        report = self.api._report_method_call('echo', {'sentence': 'foo'})
+        self.assertEqual(report, '===> echo(sentence=foo)')
+
     def test_registered_users(self):
         result = self.api.registered_users(XMPP_DOMAIN)
         self.assertTrue(isinstance(result, (list, tuple)))
@@ -179,6 +207,29 @@ class EjabberdAPITests(TestCase):
         result = self.api.user_sessions_info('admin', XMPP_DOMAIN)
         self.assertTrue(isinstance(result, (list)))
 
+    def test_user_sessions_info_process_session_info(self):
+        response = [{'session': [{'connection': 'fake'},
+                                 {'ip': '127.0.0.1'},
+                                 {'port': 31337},
+                                 {'priority': 0},
+                                 {'node': 'ejabberd@example.com'},
+                                 {'uptime': 1},
+                                 {'status': 'bar'},
+                                 {'resource': 'foo'},
+                                 {'statustext': 'bar'}]}]
+        user_session_info = UserSessionsInfo()
+        actual_result = user_session_info.process_sessions_info(response)
+        expected_result = [{u'resource': u'foo',
+                            u'node': u'ejabberd@example.com',
+                            u'statustext': u'bar',
+                            u'status': u'bar',
+                            u'ip': u'127.0.0.1',
+                            u'connection': u'fake',
+                            u'uptime': 1,
+                            u'port': 31337,
+                            u'priority': 0}]
+        self.assertEqual(expected_result[0]['port'], actual_result[0]['port'])
+
     def test_create_destroy_room(self):
         with create_test_room(self.api, 'testroom_1', service=MUC_SERVICE, host=XMPP_DOMAIN,
                               test_existence=False) as room:
@@ -186,10 +237,10 @@ class EjabberdAPITests(TestCase):
             full_name = '%s@%s' % (room, MUC_SERVICE)
             self.assertTrue(full_name in online_rooms)
 
-    def test_get_room_options(self):
-        with create_test_room(self.api, 'testroom_2', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
-            result = self.api.get_room_options(room, service=MUC_SERVICE)
-            self.assertTrue(isinstance(result, dict))
+    #def test_get_room_options(self):
+    #    with create_test_room(self.api, 'testroom_2', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
+    #        result = self.api.get_room_options(room, service=MUC_SERVICE)
+    #        self.assertTrue(isinstance(result, dict))
 
     def test_room_option_allow_change_subj(self):
         with create_test_room(self.api, 'testroom_3', service=MUC_SERVICE, host=XMPP_DOMAIN) as room:
@@ -452,6 +503,25 @@ class EjabberdAPITests(TestCase):
         self.assertEqual(roster, [])
 
 
+    def test_check_account(self):
+        with create_test_user(self.api, 'testuser_17', host=XMPP_DOMAIN) as username:
+            check_account = self.api.check_account(username, XMPP_DOMAIN)
+            self.assertTrue(check_account)
+            self.api.unregister(username, host=XMPP_DOMAIN)
+            check_account = self.api.check_account(username, XMPP_DOMAIN)
+            self.assertFalse(check_account)
+
+
+    def test_kick_user(self):
+        kick_user = self.api.kick_user('admin', XMPP_DOMAIN)
+        self.assertEqual(kick_user, 0)
+
+
+    def test_kick_session(self):
+        kick_session = self.api.kick_session('admin', XMPP_DOMAIN, 'foo', 'bar')
+        self.assertTrue(kick_session)
+
+
 class LibraryTests(TestCase):
     def test_string_argument(self):
         serializer = self._test_argument_and_get_serializer(StringArgument)
@@ -667,7 +737,7 @@ class create_test_room(object):
     def _remove_room(self, name, service, host):  # pragma: no cover
         attempt = 0
         while attempt < 10:
-            result = self.api.destroy_room(name, service=service, host=host)
+            result = self.api.destroy_room(name, service=service)
             if not result:
                 attempt += 1
                 continue

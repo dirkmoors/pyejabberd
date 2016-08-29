@@ -2,7 +2,7 @@ machine:
     services:
         - docker
     python:
-        version: 2.7.6
+        version: 2.7.12
     environment:
         PYEJABBERD_TESTS_HOST: 127.0.0.1
         PYEJABBERD_TESTS_PORT: 4560
@@ -13,31 +13,31 @@ machine:
         PYEJABBERD_TESTS_PROTOCOL: http
         PYEJABBERD_TESTS_VERBOSE: 0
         PIP_CACHE_DIR: ~/pip-cache
-    post:
-        - pyenv global pypy-2.4.0 2.6.8 2.7.9 3.3.3 3.4.2
+    #post:
+    #    - pyenv global pypy-2.4.6 2.6.9 2.7.12 3.3.6 3.4.5
 dependencies:
     cache_directories:
         - "~/docker"
         - "~/pip-cache"
     pre:
-        - pip install -U pip
+        - pip install -U setuptools pip wheel
     override:
         - pip install tox
         - docker info
         - if [[ -e ~/docker/ejabberd-latest.tar ]]; then docker load --input ~/docker/ejabberd-latest.tar; fi
-        - docker pull rroemhild/ejabberd:latest
-        - mkdir -p ~/docker; docker save rroemhild/ejabberd:latest > ~/docker/ejabberd-latest.tar
-        - if [[ -e ~/docker/ejabberd-15.06.tar ]]; then docker load --input ~/docker/ejabberd-15.06.tar; fi
-        - docker pull rroemhild/ejabberd:15.06
-        - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.06 > ~/docker/ejabberd-15.06.tar
-        - if [[ -e ~/docker/ejabberd-15.07.tar ]]; then docker load --input ~/docker/ejabberd-15.07.tar; fi
-        - docker pull rroemhild/ejabberd:15.07
-        - mkdir -p ~/docker; docker save rroemhild/ejabberd:15.07 > ~/docker/ejabberd-15.07.tar
+        - docker pull markuz/pyejabberd-test-server:latest
+        - mkdir -p ~/docker; docker save markuz/pyejabberd-test-server:latest > ~/docker/ejabberd-latest.tar
+        #- if [[ -e ~/docker/ejabberd-16.04.tar ]]; then docker load --input ~/docker/ejabberd-16.04.tar; fi
+        #- docker pull markuz/pyejabberd-test-server:16.04
+        #- mkdir -p ~/docker; docker save markuz/pyejabberd-test-server:16.04 > ~/docker/ejabberd-16.04.tar
+        #- if [[ -e ~/docker/ejabberd-16.06.tar ]]; then docker load --input ~/docker/ejabberd-16.06.tar; fi
+        #- docker pull markuz/pyejabberd-test-server:16.06
+        #- mkdir -p ~/docker; docker save markuz/pyejabberd-test-server:16.06 > ~/docker/ejabberd-16.06.tar
 test:
     pre:
         - export EJABBERD_VERSION=latest; export EJABBERD_XMLRPC_PORT=4560; ./ejabberd.sh
-        - export EJABBERD_VERSION=15.06; export EJABBERD_XMLRPC_PORT=4561; ./ejabberd.sh
-        - export EJABBERD_VERSION=15.07; export EJABBERD_XMLRPC_PORT=4562; ./ejabberd.sh
+        #- export EJABBERD_VERSION=16.04; export EJABBERD_XMLRPC_PORT=4562; ./ejabberd.sh
+        #- export EJABBERD_VERSION=16.06; export EJABBERD_XMLRPC_PORT=4563; ./ejabberd.sh
     override:
         - sleep 10
         - tox

@@ -58,7 +58,7 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):  # pragma: no cover
         pass
 
     @abstractmethod
-    def destroy_room(self, name, service, host):
+    def destroy_room(self, name, service):
         pass
 
     @abstractmethod
@@ -86,5 +86,17 @@ class EjabberdAPIContract(with_metaclass(ABCMeta, object)):  # pragma: no cover
         pass
 
     @abstractmethod
-    def get_roster(self, user, host):
+    def get_roster(self, user, server):
+        pass
+
+    @abstractmethod
+    def check_account(self, user, host):
+        pass
+
+    @abstractmethod
+    def kick_user(self, user, host):
+        pass
+
+    @abstractmethod
+    def kick_session(self, user, host, resource, reason):
         pass

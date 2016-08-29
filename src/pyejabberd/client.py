@@ -119,7 +119,8 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         return {
             'user': self.username,
             'server': self.user_domain,
-            'password': self.password
+            'password': self.password,
+            'admin': True
         }
 
     def echo(self, sentence):
@@ -244,7 +245,7 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         :rtype: list
         :return: list of information of sessions for a user
         """
-        return self._call_api(definitions.UserSessionInfo, user=user, host=host)
+        return self._call_api(definitions.UserSessionsInfo, user=user, host=host)
 
     def muc_online_rooms(self, host=None):
         """
@@ -271,19 +272,17 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.CreateRoom, name=name, service=service, host=host)
 
-    def destroy_room(self, name, service, host):
+    def destroy_room(self, name, service):
         """
         Destroy a MUC room
         :param name: The name for the room
         :type name: str|unicode
         :param service: The MUC service name (e.g. "conference")
         :type service: str|unicode
-        :param host: The XMPP_DOMAIN
-        :type host: str|unicode
         :rtype: bool
         :return: A boolean indicating whether the room has been destroyed successfully
         """
-        return self._call_api(definitions.DestroyRoom, name=name, service=service, host=host)
+        return self._call_api(definitions.DestroyRoom, name=name, service=service)
 
     def get_room_options(self, name, service):
         """
@@ -382,18 +381,58 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
         """
         return self._call_api(definitions.DeleteRosterItem, localuser=localuser, localserver=localserver, user=user, server=server)
 
-    def get_roster(self, user, host):
+    def get_roster(self, user, server):
         """
         Get roster of a user
 
         :param user: The username of the user we want contact information for
         :type user: str|unicode
-        :param host: The XMPP_DOMAIN
-        :type host: str|unicode
+        :param server: The XMPP_DOMAIN
+        :type server: str|unicode
         :rtype: Iterable
         :return: A list of user's contacts
         """
-        return self._call_api(definitions.GetRoster, user=user, host=host)
+        return self._call_api(definitions.GetRoster, user=user, server=server)
+
+    def check_account(self, user, host):
+        """
+        Check if an account exists or not
+
+        :param user: The username of the user we want to check account existence for
+        :type user: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :return:
+        """
+        return self._call_api(definitions.CheckAccount, user=user, host=host)
+
+    def kick_user(self, user, host):
+        """
+        Disconnect user's active sessions
+
+        :param user: The username of the user we want to disconnect
+        :type user: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :return: The number of resources/session kicked out
+        """
+        return self._call_api(definitions.KickUser, user=user, host=host)
+
+    def kick_session(self, user, host, resource, reason):
+        """
+        Disconnect user's session
+
+        :param user: The username of the user we want to disconnect a session for
+        :type user: str|unicode
+        :param host: The XMPP_DOMAIN
+        :type host: str|unicode
+        :param resource: The resource of the session we want to disconnect
+        :type resource: str|unicode
+        :param reason: The reason why we want to disconnect the session
+        :type reason: str|unicode
+        :return:
+        """
+        return self._call_api(definitions.KickSession, user=user, host=host, resource=resource, reason=reason)
 
     def _validate_and_serialize_arguments(self, api, arguments):
         """
@@ -424,14 +463,16 @@ class EjabberdAPIClient(contract.EjabberdAPIContract):
     def _report_method_call(self, method, arguments):
         """
         Internal method to print info about a method call
-        :param method: The name oft hem ethod to call
+        :param method: The name of the method to call
         :type method: str|unicode
         :param arguments: A dictionary of arguments that will be passed to the method
         :type: arguments: dict
         :return:
         """
         if self.verbose:
-            print('===> %s(%s)' % (method, ', '.join(['%s=%s' % (key, value) for (key, value) in arguments.items()])))
+            report = '===> %s(%s)' % (method, ', '.join(['%s=%s' % (key, value) for (key, value) in arguments.items()]))
+            print(report)
+            return report
 
     def _call_api(self, api_class, **kwargs):
         """
