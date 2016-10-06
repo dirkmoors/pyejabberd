@@ -74,6 +74,12 @@ class CheckPasswordHash(API):
     def transform_response(self, api, arguments, response):
         return response.get('res') == 0
 
+class CheckPassword(API):
+    method = 'check_password'
+    arguments = [StringArgument('user'), StringArgument('host'), StringArgument('password')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res') == 0
 
 class SetNickname(API):
     method = 'set_nickname'
@@ -227,3 +233,48 @@ class GetRoster(API):
                     contact_details[key] = value
             roster.append(contact_details)
         return roster
+
+class Stats(API):
+    method = 'stats'
+    arguments = [StringArgument('name')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('stat')
+
+class StatsHost(API):
+    method = 'stats_host'
+    arguments = [StringArgument('name'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('stat')
+
+class SendMessage(API):
+    method = 'send_message'
+    arguments = [StringArgument('type'),
+                 StringArgument('_from'), StringArgument('to'),
+                 StringArgument('subject'), StringArgument('body')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res')
+
+class PrivacySet(API):
+    method = 'privacy_set'
+    arguments = [StringArgument('user'), StringArgument('host'),
+                 StringArgument('xmlquery')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res')
+
+class GetLast(API):
+    method = 'get_last'
+    arguments = [StringArgument('user'), StringArgument('host')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('last_activity')
+
+class BanAccount(API):
+    method = 'ban_account'
+    arguments = [StringArgument('user'), StringArgument('host'), StringArgument('reason')]
+
+    def transform_response(self, api, arguments, response):
+        return response.get('res')
